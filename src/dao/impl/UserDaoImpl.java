@@ -15,7 +15,7 @@ public class UserDaoImpl implements UserDao {
     @return 返回对应id账号的User对象，如果不存在返回null
      */
     @Override
-    public User findUserbyID(String id) {
+    public User findUserbyID(String id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         //TODO Auto-generated method stub
         if (id == null){
             return null;
@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
         }catch (SQLException e){
             e.printStackTrace();
         }finally {
-            DBHelper.closeAll(conn,stat,rs);
+            //DBHelper.closeAll(conn,stat,rs);
         }
         if (u.getId().equals(""))
             return null;
@@ -49,7 +49,7 @@ public class UserDaoImpl implements UserDao {
     插入空账户，用于注册
      */
     @Override
-    public void creatNewUser() {
+    public void creatNewUser() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         //TODO Auto-generated method stub
         Connection conn = DBHelper.getConnection();
         String sql = "INSERT USER (id,name,password,balance) VALUE(null,null,null,null);";
@@ -70,7 +70,7 @@ public class UserDaoImpl implements UserDao {
     @param serialNum
      */
     @Override
-    public void addUser(String id, int serialNum) {
+    public void addUser(String id, int serialNum) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         Connection conn = DBHelper.getConnection();
         String sql = "UPDATE User SET id ='" + id + "'WHERE serialNum ='" + serialNum + "';";
         PreparedStatement stat = null;
@@ -89,7 +89,7 @@ public class UserDaoImpl implements UserDao {
     @param user 已设定好数据的user对象
      */
     @Override
-    public void updateUser(User user) {
+    public void updateUser(User user) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         //TODO Auto-generated method stub
         Connection conn = DBHelper.getConnection();
         String sql = "UPDATE User SET name ='" + user.getName() +
