@@ -1,5 +1,6 @@
 package gui;
 
+import dao.impl.ScreenUtils;
 import dbutils.DBHelper;
 
 
@@ -104,8 +105,8 @@ public class dengluFrame {
 			
 			//jf.setIconImage(ImageIO.read(new File("src/com/hua/1.png")));
 			jf.setResizable(false);
-			jf.setLocationRelativeTo(null);
-			//jf.setBounds((ScreenUtils.getScreenWidth()-WIDTH)/2, (ScreenUtils.getScreenHeight()-HEIGTH)/2,WIDTH,HEIGTH);
+			//jf.setLocationRelativeTo(null);
+			jf.setBounds((ScreenUtils.getScreenWidth()-WIDTH)/2, (ScreenUtils.getScreenHeight()-HEIGTH)/2,WIDTH,HEIGTH);
 			jf.setLocationRelativeTo(null);
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			jf.setVisible(true);
