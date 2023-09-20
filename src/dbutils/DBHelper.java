@@ -1,53 +1,116 @@
 package dbutils;
 
+import dao.DBconfig;
+
 import  java.sql.*;
 //用于建立数据库连接的类
-public class DBHelper {
-    private static Connection conn = null;
-    private static String DRIVE = "com.mysql.jdbc.Driver"; //数据库驱动类
-    private static final String DB_CONN_RUL = "jdbc:mysql://localhost:3306/projecttraining?useSSL=false";
-    private static final String DB_USER_NAME = "root";
-    private static final String DB_PASSWORD = "123456";
+public class DBHelper implements DBconfig {
+    static Connection conn = null;
+    static PreparedStatement pstmt = null;
+    static Statement  st = null;
+    static ResultSet rs = null;
 
-    /*
-        获得一个连接，连接数据库
-        @return connection类对象
+    /**
+     * 得到数据库连接
      */
-    public static Connection getConnection() {
-        Connection connection = null;
+    public static  Connection  getConnection() throws ClassNotFoundException,
+            SQLException, InstantiationException, IllegalAccessException {
         try {
-            Class.forName("com.mysql.jdbc.Driver");//加载驱动
-            connection = DriverManager.getConnection(DB_CONN_RUL, DB_USER_NAME, DB_PASSWORD);//生成连接
-        } catch (SQLException e) {
-            //TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            //TODO Auto-generated catch block
+            // 指定驱动程序
+            Class.forName(driver);
+            // 建立数据库连结
+            conn = DriverManager.getConnection(url, user, password);
+            return conn;
+
+        } catch (Exception e) {
+//			// 如果连接过程出现异常，抛出异常信息
+//						throw new SQLException("驱动错误或连接失败！");
             e.printStackTrace();
         }
-        return connection;
+        return conn;
+    }
+    /**
+     * 得到Statement
+     * @throws SQLException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws ClassNotFoundException
+     */
+    public static  Statement  openStatement() {
+        try {
+            Connection connection=getConnection();
+            st=connection.createStatement();
+        } catch (ClassNotFoundException |InstantiationException |IllegalAccessException |SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return st;
+    }
+    /**
+     * 静态update(String sql)方法，该方法返回值为int型，用于完成数据的增（insert）、删（delete）、改（update）
+     */
+    public static  int  update(String sql){
+        int n=0;
+        try {
+            Statement st=openStatement();
+            n = st.executeUpdate(sql);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return  n;
     }
 
-    public static void closeAll(Connection conn,
-                                PreparedStatement pstmt, ResultSet rs) {
+
+    /**
+     * query(String sql)方法，该方法返回值为ResultSet类型的对象，用于完成数据的查询（select）
+     */
+    public static  ResultSet  query(String sql){;
+        try {
+            Statement st=openStatement();
+            rs = st.executeQuery(sql);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return  rs;
+    }
+
+
+
+    /**
+     * 释放资源
+     */
+    public static void close() {
+        // 如果rs不空，关闭rs
         if (rs != null) {
             try {
                 rs.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        // 如果pstmt不空，关闭pstmt
         if (pstmt != null) {
             try {
                 pstmt.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        // 如果st不空，关闭pstmt
+        if (st != null) {
+            try {
+                st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        // 如果conn不空，关闭conn
         if (conn != null) {
             try {
                 conn.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
