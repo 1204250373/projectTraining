@@ -24,10 +24,10 @@ public class dengluFrame {
 		
 		//组装视图
 		public dengluFrame() throws Exception{
-			ImageIcon bg = new ImageIcon("src/com/hua/8.jpg");
-			JLabel label = new JLabel(bg);
-			label.setSize(bg.getIconWidth(),bg.getIconHeight());
-			jf.getLayeredPane().add(label,new Integer(Integer.MIN_VALUE));
+			//ImageIcon bg = new ImageIcon("src/com/hua/8.jpg");
+			//JLabel label = new JLabel(bg);
+			//label.setSize(bg.getIconWidth(),bg.getIconHeight());
+			//jf.getLayeredPane().add(label,new Integer(Integer.MIN_VALUE));
 			
 			JPanel pan = (JPanel)jf.getContentPane();
 			pan.setOpaque(false);//透明
@@ -37,7 +37,7 @@ public class dengluFrame {
 	        Font font = new Font("宋体",Font.PLAIN,40);
 			
 			l1.setFont(font);
-			l1.setForeground(Color.lightGray);
+			l1.setForeground(Color.BLACK);
 			
 			//组装按钮组
 			Box b4 = Box.createHorizontalBox();
