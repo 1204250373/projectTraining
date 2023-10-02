@@ -196,7 +196,7 @@ public class dengluFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//new zhuceFrame();
+					new zhuceFrame();
 					jf.dispose();
 				}
 			});

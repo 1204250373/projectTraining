@@ -4,12 +4,12 @@ import java.awt.*;
 
 public class ScreenUtils {
 
-    //è·å–å½“å‰ç”µè„‘å±å¹•çš„å®½åº¦
+    //»ñÈ¡µ±Ç°µçÄÔÆÁÄ»µÄ¿í¶È
     public static int getScreenWidth(){
         return Toolkit.getDefaultToolkit().getScreenSize().width;
     }
 
-    //è·å¾—å½“å‰ç”µè„‘å±å¹•çš„é«˜åº¦
+    //»ñµÃµ±Ç°µçÄÔÆÁÄ»µÄ¸ß¶È
 
     public static int getScreenHeight(){
 
