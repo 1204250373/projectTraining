@@ -131,27 +131,23 @@ public class dengluFrame {
 						JOptionPane.showMessageDialog(null, "请选择普通用户或管理者进行登录!");
 						return;
 					}
-					if (rb1.isSelected()
-							&& (userField.getText().equals("") || ( passwordField)
-									.getPassword().equals(""))) {
+					if ((rb1.isSelected()||rb2.isSelected())
+							&& (userField.getText().equals("") || passwordField.getText().equals(""))) {
 						JOptionPane.showMessageDialog(null, "请输入账号或密码!");
 						return;
 					}
 
-					if (rb2.isSelected()
-							&& (userField.getText().equals("") || ( passwordField)
-									.getPassword().equals(""))) {
-						JOptionPane.showMessageDialog(null, "请输入账号或密码!");
-						return;
-					}
+					//String queryCommonID = "SELECT commonID FROM `common` WHERE commonID IS NOT NULL ";
 
-					String queryCommonID = "SELECT commonID FROM `common` WHERE commonID IS NOT NULL ";
-
+					//用户
 					if(rb1.isSelected()){
-					if (checkByUnameAndPwd(userField.getText(), new String(
-							passwordField.getPassword()))) {// 比对账号和密码
+						if (checkByUnameAndPwd(userField.getText(), passwordField.getText())) {// 比对账号和密码
 						JOptionPane.showMessageDialog(null, "登录成功");//
 						//new yonghuFrame();
+
+//						new UserUI().init(A);
+//						JF.setVisible(false);
+//						LogService.addLogs(A,"登陆系统");
 					} else {
 						JOptionPane.showMessageDialog(null, "账号或密码不正确");// 登录失败
 						try {
@@ -162,9 +158,7 @@ public class dengluFrame {
 						}
 					}
 					}else if(rb2.isSelected()){
-					if (userField.getText().trim().equals("admin")
-							&& new String(passwordField.getPassword())
-									.equals("123456") && rb2.isSelected()) {// 设置账号和密码
+						if (userField.getText().equals("admin") && passwordField.getText().equals("123456")) {// 设置账号和密码
 						JOptionPane.showMessageDialog(null, "登录成功");
 						try {// 登录成功跳转新窗口
 							//new manageFrame();
@@ -221,29 +215,9 @@ public class dengluFrame {
 		}
 		
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-		
-		try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        }catch(Exception e) {
-         System.out.println(e);
-        }
-		Connection coon = DBHelper.getConnection();
-		if (coon != null) {
-			System.out.println("数据库连接成功");
-		}
-		try {
+	public static void main(String[] args) throws Exception {
+
 			dengluFrame d1 = new dengluFrame();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		DBHelper.close();
 
 	}
 
