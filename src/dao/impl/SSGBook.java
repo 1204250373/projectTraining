@@ -3,6 +3,7 @@ package dao.impl;
 import dao.Compare;
 import dbutils.DBHelper;
 
+import javax.swing.*;
 import java.awt.print.Book;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,13 +23,25 @@ public class SSGBook {
     }
     //通过书名找书
     public static Vector<Vector<String>> SeekBooks_BookName(String BookName) throws SQLException {
-        String sql = "SELECT * from books where BookName ="+ BookName +";";
+        String sql = "SELECT * from books where BookName ='"+ BookName +"';";
         ResultSet rs = DBHelper.query(sql);
         return ResultSerToVector(rs);
     }
     //通过卖家查找书
     public static Vector<Vector<String>> SeekBooks_Vendor(String Vendor) throws SQLException {
-        String sql = "SELECT * from books where Vendor = "+Vendor+";";
+        String sql = "SELECT * from books where Vendor = '"+Vendor+"';";
+        ResultSet rs = DBHelper.query(sql);
+        return ResultSerToVector(rs);
+    }
+    //通过卖家和书名查找书
+    public static Vector<Vector<String>> SeekBooks_VendorAndBookName(String Vendor,String BookName) throws SQLException {
+        String sql = "SELECT * from books where Vendor = '"+Vendor+"' and BookName ='"+ BookName +"';";
+        ResultSet rs = DBHelper.query(sql);
+        return ResultSerToVector(rs);
+    }
+    //通过BOOKID查找书
+    public static Vector<Vector<String>> SeekBooks_BookID(String BookId) throws SQLException {
+        String sql = "SELECT * from books where BookId = '"+BookId+"';";
         ResultSet rs = DBHelper.query(sql);
         return ResultSerToVector(rs);
     }
@@ -40,21 +53,33 @@ public class SSGBook {
     }
 
     //根据信息删除（下架/卖出）书籍
-    public static void SoldBook(String BookID) throws SQLException {
+    public static boolean SoldBook(String BookID , int SoldNumber) throws SQLException {
 
         String soldTime = GetNewTime.GetTime();//卖出时间
         int bookRep = Integer.parseInt(GetBookRepertory(BookID)) ;//库存
 
-        if(bookRep>=1){
-            String sql ="UPDATE books SET NowRepertory='"+(bookRep-1)+"' WHERE BookID = '"+ BookID +"';";
+        if(bookRep>=SoldNumber){
+            String sql ="UPDATE books SET NowRepertory='"+(bookRep-SoldNumber)+"' WHERE BookID = '"+ BookID +"';";
             DBHelper.update(sql);
-        }else if(false){
-            //String sql ="DELETE * from books where BookID="+BookID+";";
-        }else{
+            //无库存则设置书籍状态为下架
+            if(bookRep==SoldNumber){
+                sql ="UPDATE books SET BookState='下架' WHERE BookID = '"+ BookID +"';";
+                DBHelper.update(sql);
 
+            }
+            return true;
+        }else{
+            JOptionPane.showMessageDialog(new JFrame(), "购买数量超过库存，无法购买");
+            return false;
         }
+    }
+
+    //创建销售日志
+    public  static void LogSoldBook(){
 
     }
+
+    //删除书籍信息
     public static void DeleteBook(String BookID) throws SQLException {
         String sql ="DELETE  from books where BookID='"+BookID+"';";
         DBHelper.update(sql);
@@ -79,10 +104,16 @@ public class SSGBook {
     public static void SortBook_Vendor_DOWN(Vector<Vector<String>> books){
         SSGBook.quickSort(books,0,books.size()-1,VENDOR,Vendor_down_compare);
     }
+    public static void SortBook_State_UP(Vector<Vector<String>> books){
+        SSGBook.quickSort(books,0,books.size()-1,BOOKSTATE,State_up_compare);
+    }
+    public static void SortBook_State_DOWN(Vector<Vector<String>> books){
+        SSGBook.quickSort(books,0,books.size()-1,BOOKSTATE,State_down_compare);
+    }
     public static void main(String[] args) throws SQLException {
         //Vector<Vector<String>> getbook = SGBook.SeekBooks_Vendor("5");
         Vector<Vector<String>> getbook2 = SSGBook.GetBookAll();
-        Vector<Vector<String>> getbook3 = SSGBook.GetBookAll();
+        //Vector<Vector<String>> getbook3 = SSGBook.GetBookAll();
 //        SGBook.SetBook("12","12","12","12","12");
 //        Vector<Vector<String>> getbook3 = SGBook.SeekBooks_Vendor("12");
 //        System.out.println(getbook);
@@ -90,7 +121,7 @@ public class SSGBook {
 //        System.out.println(getbook3);
 //        System.out.println( getbook.get(0).get(BOOKNAME) );
 //        SGBook.quickSort(getbook2,0,getbook2.size());
-        SSGBook.SoldBook(getbook2.get(0).get(BOOKID));
+        SSGBook.SoldBook(getbook2.get(2).get(BOOKID),2);
         //SSGBook.DeleteBook(getbook2.get(1).get(BOOKID));
 
 
@@ -184,6 +215,8 @@ public class SSGBook {
    static Compare Name_down_compare = (s1 ,s2) -> s2.compareTo(s1)>0;
    static Compare Vendor_up_compare = (s1, s2) -> s1.compareTo(s2)>0 ;
    static Compare Vendor_down_compare = (s1 ,s2) -> s2.compareTo(s1)>0;
+   static Compare State_up_compare = (s1, s2) ->  s1.compareTo(s2)>0;
+   static Compare State_down_compare = (s1 ,s2) -> s2.compareTo(s1)>0;
 
 
 
