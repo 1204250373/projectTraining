@@ -13,11 +13,16 @@ import java.util.*;
 
 public class SSGBook {
 
-    //卖家上架书籍
+    //卖家上架(出售)书籍
     public static void SetBook( String Vendor,String BookName
-            , String BookStack , String NowRepertory , String BookPrice ){
-        String sql = "insert into books (Vendor , BookName , BookState , NowRepertory , BookPrice )" +
-                " values('"+Vendor+"','"+BookName+"','"+BookStack+"','"+NowRepertory+"','"+BookPrice+"')";
+           , String NowRepertory ,String MinRepertory, String BookPrice ){
+        String BookStack = "上架中";
+        if(Integer.parseInt(NowRepertory) <= Integer.parseInt(MinRepertory)){
+            BookStack = "下架";
+        }
+
+        String sql = "insert into books (Vendor , BookName , BookState , NowRepertory ,MinRepertory, BookPrice )" +
+                " values('"+Vendor+"','"+BookName+"','"+BookStack+"','"+NowRepertory+"','"+MinRepertory+"','"+BookPrice+"')";
         DBHelper.update(sql);
 
     }
@@ -55,23 +60,29 @@ public class SSGBook {
     //根据信息删除（下架/卖出）书籍
     public static boolean SoldBook(String BookID , int SoldNumber) throws SQLException {
 
-        String soldTime = GetNewTime.GetTime();//卖出时间
-        int bookRep = Integer.parseInt(GetBookRepertory(BookID)) ;//库存
-
-        if(bookRep>=SoldNumber){
-            String sql ="UPDATE books SET NowRepertory='"+(bookRep-SoldNumber)+"' WHERE BookID = '"+ BookID +"';";
-            DBHelper.update(sql);
-            //无库存则设置书籍状态为下架
-            if(bookRep==SoldNumber){
-                sql ="UPDATE books SET BookState='下架' WHERE BookID = '"+ BookID +"';";
+        //String soldTime = GetNewTime.GetTime();//卖出时间
+        Vector<String> book = GetBook(BookID);
+        int bookRep = Integer.parseInt(book.get(NOWREPERTORY)) ;//库存
+        String bookState = book.get(BOOKSTATE);
+        int minRepertory = Integer.parseInt(book.get(MINREPERTORY)) ;
+        if(bookState.equals("上架中")){
+            if(bookRep>=SoldNumber){
+                String sql ="UPDATE books SET NowRepertory='"+(bookRep-SoldNumber)+"' WHERE BookID = '"+ BookID +"';";
                 DBHelper.update(sql);
+                //无库存则设置书籍状态为下架
+                if((bookRep-SoldNumber)<=minRepertory){
+                    sql ="UPDATE books SET BookState='下架' WHERE BookID = '"+ BookID +"';";
+                    DBHelper.update(sql);
 
+                }
+                return true;
+            }else{
+                JOptionPane.showMessageDialog(new JFrame(), "购买数量超过库存，无法购买");
+                return false;
             }
-            return true;
-        }else{
-            JOptionPane.showMessageDialog(new JFrame(), "购买数量超过库存，无法购买");
-            return false;
         }
+        JOptionPane.showMessageDialog(new JFrame(), "无法购买，该书籍已下架");
+        return false;
     }
 
     //创建销售日志
@@ -80,11 +91,43 @@ public class SSGBook {
     }
 
     //删除书籍信息
-    public static void DeleteBook(String BookID) throws SQLException {
+    public static boolean DeleteBook(String BookID) throws SQLException {
         String sql ="DELETE  from books where BookID='"+BookID+"';";
         DBHelper.update(sql);
+        return true;
     }
 
+    //重新上架
+    public static boolean UpShelfBook(String Id) throws SQLException {
+        Vector<String > book = GetBook(Id);
+        Integer NewRep = Integer.parseInt( book.get(NOWREPERTORY));
+        Integer MinRep = Integer.parseInt( book.get(MINREPERTORY));
+        String State = book.get(BOOKSTATE);
+        if(State.equals("上架中")){
+            return true;
+        }else{
+            if(NewRep>MinRep){
+                String sql ="Update books set BookState ='上架中' where BookId ='"+Id+"';";
+                DBHelper.update(sql);
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+
+    }
+    //修改书籍信息
+    public static boolean ChangeBook(String id , String Name ,String Price , String NowRepretory ,String MinRepretory){
+        String sql ="update books set BookName = '"+Name+"',BookPrice = '"+Price+"',NowRepertory = '"
+                +NowRepretory+"',MinRepertory='"+MinRepretory+"' where BookID = '"+id+"';";
+        DBHelper.update(sql);
+        if(Integer.parseInt(NowRepretory)<=Integer.parseInt(MinRepretory)){
+            sql ="Update books set BookState ='下架' where BookId ='"+id+"';";
+            DBHelper.update(sql);
+        }
+        return true;
+    }
         //根据书籍价格进行排序
     public static void SortBook_Price_UP(Vector<Vector<String>> books){
         SSGBook.quickSort(books,0,books.size()-1,BOOKPRICE,up_compare);
@@ -110,6 +153,8 @@ public class SSGBook {
     public static void SortBook_State_DOWN(Vector<Vector<String>> books){
         SSGBook.quickSort(books,0,books.size()-1,BOOKSTATE,State_down_compare);
     }
+
+
     public static void main(String[] args) throws SQLException {
         //Vector<Vector<String>> getbook = SGBook.SeekBooks_Vendor("5");
         Vector<Vector<String>> getbook2 = SSGBook.GetBookAll();
@@ -117,11 +162,11 @@ public class SSGBook {
 //        SGBook.SetBook("12","12","12","12","12");
 //        Vector<Vector<String>> getbook3 = SGBook.SeekBooks_Vendor("12");
 //        System.out.println(getbook);
-//        System.out.println(getbook2);
+        System.out.println(getbook2);
 //        System.out.println(getbook3);
 //        System.out.println( getbook.get(0).get(BOOKNAME) );
 //        SGBook.quickSort(getbook2,0,getbook2.size());
-        SSGBook.SoldBook(getbook2.get(2).get(BOOKID),2);
+        //SSGBook.SoldBook(getbook2.get(2).get(BOOKID),2);
         //SSGBook.DeleteBook(getbook2.get(1).get(BOOKID));
 
 
@@ -137,6 +182,7 @@ public class SSGBook {
             book.add(rs.getString("NowRepertory"));
             book.add(rs.getString("BookPrice"));
             book.add(rs.getString("Vendor"));
+            book.add(rs.getString("MinRepertory"));
             BOOKS.add(book);
         }
         return BOOKS;
@@ -195,19 +241,22 @@ public class SSGBook {
             book.add(rs.getString("NowRepertory"));
             book.add(rs.getString("BookPrice"));
             book.add(rs.getString("Vendor"));
+            book.add(rs.getString("MINREPERTORY"));
             return book;
         }
         return null;
     }
 
     final static int MAXBOOSNUM = 50;
-    final static int BOOKATTRUVYTE = 6;
-    final static int BOOKID = 0;
-    final static int BOOKNAME = 1;
-    final static int BOOKSTATE = 2;
-    final static int NOWREPERTORY = 3;
-    final static int BOOKPRICE = 4;
-    final static int VENDOR = 5;
+    final static int BOOKATTRUVYTE = 7;
+    private final static int BOOKID = 0;
+    private final static int BOOKNAME = 1;
+    private final static int BOOKSTATE = 2;
+    private final static int NOWREPERTORY = 3;
+    private final static int BOOKPRICE = 4;
+    private final static int VENDOR = 5;
+    private final static int MINREPERTORY = 6;
+
 
    static Compare up_compare = (s1, s2) -> Float.parseFloat(s1)<Float.parseFloat(s2);
    static Compare down_compare =  (s1, s2)->Float.parseFloat(s1)>Float.parseFloat(s2);

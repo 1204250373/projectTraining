@@ -2,9 +2,6 @@ package gui;
 
 import dao.impl.GetNewTime;
 import dao.impl.SSGBook;
-import dbutils.DBHelper;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -14,10 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Vector;
@@ -241,11 +234,13 @@ public class SalesQuery implements ActionListener{
 	}
 
 
+	//无用
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 	}
 
+	//接受data，刷新display书籍
 	private void RefreshTable(Vector<Vector<String>> data){
 
 //			创建一个TableModel对象，并传入表头和表内容
@@ -254,12 +249,14 @@ public class SalesQuery implements ActionListener{
 		table.setModel(tableModel);
 		ClearTextFile();
 	}
+	//清空三个文本框
 	private void ClearTextFile(){
 		jtf1.setText("");
 		jtf2.setText("");
 		jtf3.setText("");
 	}
 
+	//订单窗口
 	private void  SaleBookFrame(Vector<String> thisBook) {
 
 
@@ -389,7 +386,8 @@ public class SalesQuery implements ActionListener{
 				saleframe.dispose();
 			}
 		});
-		jtf6.setText("下单");
+		//jtf6.setText("下单");
+		//支付按钮（未完全）
 		jb1.addActionListener(new ActionListener() {
 
 			@Override
@@ -402,6 +400,7 @@ public class SalesQuery implements ActionListener{
 						SSGBook.LogSoldBook();
 						//刷新原页数据
 						data = SSGBook.GetBookAll();
+						SSGBook.SortBook_State_DOWN(data);
 						RefreshTable(data);
 						//关闭订单页面
 						saleframe.dispose();
@@ -416,6 +415,7 @@ public class SalesQuery implements ActionListener{
 
 			}
 		});
+		//修改购买书籍数量时改变总价
 		jtf4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -432,6 +432,7 @@ public class SalesQuery implements ActionListener{
 	private final static int NOWREPERTORY = 3;
 	private final static int BOOKPRICE = 4;
 	private final static int VENDOR = 5;
+	private final static int MINREPERTORY = 6;
 
 }
 
