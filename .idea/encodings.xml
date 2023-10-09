@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="NO_ENCODING">
+    <file url="file://$PROJECT_DIR$/src/dao/Compare.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/dao/DBconfig.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/dao/UserDao.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/dao/impl/GetNewTime.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/dao/impl/SSGBook.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/dao/impl/ScreenUtils.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/dao/impl/UserDaoImpl.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/dbutils/DBHelper.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/gui/dengluFrame.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/gui/zhuceFrame.java" charset="GBK" />
+  </component>
+</project>
