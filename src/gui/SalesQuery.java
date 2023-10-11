@@ -32,7 +32,8 @@ public class SalesQuery implements ActionListener{
 		//创建面板
 		JPanel panel = new JPanel();
 		//表格
-		columnNames = new Vector<String>(Arrays.asList(new String[]{"书籍销售编号", "书籍名称", "书籍状态", "书籍存量", "销售单价(￥)", "卖家"}));//表头
+		columnNames = new Vector<String>(Arrays.asList(new String[]{"书籍销售编号", "书籍名称", "书籍状态", "书籍存量", "销售单价(￥)", "卖家", "最低库存"}));//表头
+
 		//data = new Demo01().table();//获取表内容
 		Vector<Vector<String>> data = SSGBook.GetBookAll();//获取表内容
 		SSGBook.SortBook_State_DOWN(data);
@@ -263,7 +264,7 @@ public class SalesQuery implements ActionListener{
 		JFrame saleframe = new JFrame();
 		String time =GetNewTime.GetTime();
 		saleframe.setTitle("订单处理界面");
-		String type[] = {"微信", "支付宝", "银行"};
+		String[] type = {"微信", "支付宝", "银行"};
 		JComboBox jcb = new JComboBox(type);
 		JPanel panel = new JPanel();
 
@@ -293,7 +294,7 @@ public class SalesQuery implements ActionListener{
 		JLabel jtf1 = new JLabel(thisBook.get(BOOKID));
 		JLabel jtf2 = new JLabel(thisBook.get(BOOKNAME));
 		JLabel jtf3 = new JLabel(thisBook.get(BOOKPRICE));
-		String bugnum[] = {"1","2","3","4","5"};
+		String[] bugnum = {"1","2","3","4","5"};
 		JComboBox jtf4 = new JComboBox(bugnum);
 		JLabel jtf5 = new JLabel(thisBook.get(BOOKPRICE));
 		JLabel jtf6 = new JLabel(thisBook.get(BOOKSTATE));
@@ -327,8 +328,6 @@ public class SalesQuery implements ActionListener{
 			b8.add(Box.createHorizontalStrut(20));
 			b8.add(jtf7);
 			b9.add(jb1);
-			//b9.add(Box.createHorizontalStrut(130));
-			//b9.add(jb2);
 		}
 		{
 			box.add(Box.createVerticalStrut(30));
@@ -339,17 +338,12 @@ public class SalesQuery implements ActionListener{
 			box.add(b7);
 			box.add(b8);
 			box.add(Box.createVerticalStrut(10));
-
 			box.add(b6);
 			box.add(Box.createVerticalStrut(10));
-
 			box.add(b4);
-
 			box.add(b5);
 			box.add(Box.createVerticalStrut(10));
-
 			box.add(b9);
-			//box.add(Box.createVerticalStrut(30));
 		}
 		// 设置字体
 		{

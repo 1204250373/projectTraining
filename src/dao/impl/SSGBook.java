@@ -4,11 +4,8 @@ import dao.Compare;
 import dbutils.DBHelper;
 
 import javax.swing.*;
-import java.awt.print.Book;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SSGBook {
@@ -62,6 +59,7 @@ public class SSGBook {
 
         //String soldTime = GetNewTime.GetTime();//卖出时间
         Vector<String> book = GetBook(BookID);
+        assert book != null;
         int bookRep = Integer.parseInt(book.get(NOWREPERTORY)) ;//库存
         String bookState = book.get(BOOKSTATE);
         int minRepertory = Integer.parseInt(book.get(MINREPERTORY)) ;
@@ -100,12 +98,13 @@ public class SSGBook {
     //重新上架
     public static boolean UpShelfBook(String Id) throws SQLException {
         Vector<String > book = GetBook(Id);
-        Integer NewRep = Integer.parseInt( book.get(NOWREPERTORY));
-        Integer MinRep = Integer.parseInt( book.get(MINREPERTORY));
+        assert book != null;
         String State = book.get(BOOKSTATE);
         if(State.equals("上架中")){
             return true;
         }else{
+            int NewRep = Integer.parseInt( book.get(NOWREPERTORY));
+            int MinRep = Integer.parseInt( book.get(MINREPERTORY));
             if(NewRep>MinRep){
                 String sql ="Update books set BookState ='上架中' where BookId ='"+Id+"';";
                 DBHelper.update(sql);
