@@ -1,6 +1,8 @@
 package gui;
 
+import beans.User;
 import dao.impl.ScreenUtils;
+import dao.impl.UserDaoImpl;
 import dbutils.DBHelper;
 
 
@@ -141,42 +143,31 @@ public class dengluFrame {
 
 					//用户
 					if(rb1.isSelected()){
-						if (checkByUnameAndPwd(userField.getText(), passwordField.getText())) {// 比对账号和密码
-						JOptionPane.showMessageDialog(null, "登录成功");//
-						//new yonghuFrame();
-
-//						new UserUI().init(A);
-//						JF.setVisible(false);
-//						LogService.addLogs(A,"登陆系统");
-					} else {
-						JOptionPane.showMessageDialog(null, "账号或密码不正确");// 登录失败
 						try {
-							new dengluFrame();
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							if (checkByUnameAndPwd(userField.getText(), passwordField.getText())) {// 比对账号和密码
+								User us =UserDaoImpl.findUserbyID(userField.getText());
+								new yonghuFrame(us);
+								JOptionPane.showMessageDialog(null, "登录成功");//
+								jf.dispose();
+
+							}
+						} catch (ClassNotFoundException classNotFoundException) {
+							classNotFoundException.printStackTrace();
+						} catch (SQLException throwables) {
+							throwables.printStackTrace();
+						} catch (InstantiationException instantiationException) {
+							instantiationException.printStackTrace();
+						} catch (IllegalAccessException illegalAccessException) {
+							illegalAccessException.printStackTrace();
 						}
-					}
 					}else if(rb2.isSelected()){
 						if (userField.getText().equals("admin") && passwordField.getText().equals("123456")) {// 设置账号和密码
 						JOptionPane.showMessageDialog(null, "登录成功");
-						try {// 登录成功跳转新窗口
-							//new manageFrame();
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+
 					}else {
 						JOptionPane.showMessageDialog(null, "账号或密码不正确");// 登录失败
-						try {
-							new dengluFrame();
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
 					}
 					}
-					jf.dispose();
 				}
 
 				private boolean isSelected(JRadioButton rb2) {
@@ -191,27 +182,27 @@ public class dengluFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					new zhuceFrame();
-					jf.dispose();
 				}
 			});
 			
 
 		}
 		// 设置判断账号密码是否正确的方法
-		public static boolean checkByUnameAndPwd(String uname, String pwd) {
-			String sql = "select * from user where commonID='" + uname
-					+ "' and commonPassword='" + pwd + "' ";
-			ResultSet rSet1 = DBHelper.query(sql);
-			boolean flag = false;
-			try {
-				while (rSet1.next()) {
-					flag = true;
+		public static boolean checkByUnameAndPwd(String sid, String pwd) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+			User us =UserDaoImpl.findUserbyID(sid);
+			if(!us.getSid().equals("-1")){
+				if(us.getPassword().equals(pwd)){
+					return true;
+				}else{
+					JOptionPane.showMessageDialog(new JFrame(), "密码错误");
+					return false;
+
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			}else{
+				JOptionPane.showMessageDialog(new JFrame(), "该学号未注册");
+				return false;
+
 			}
-			return flag;
 		}
 		
 

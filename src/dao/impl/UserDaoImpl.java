@@ -16,7 +16,7 @@ public class UserDaoImpl  {
         //TODO Auto-generated method stub
         String sql = "select * from myuser WHERE sid='" + sid +"';";
         ResultSet rs =  DBHelper.query(sql);
-        User u = new User();
+        User u = new User();//无参构造时使sid=-1；用于检测有无此用户
         try{
             if (rs.next()){
                 u.setId(rs.getString("uid"));
@@ -25,12 +25,12 @@ public class UserDaoImpl  {
                 u.setPhone(rs.getString("phone"));
                 u.setSid(rs.getString("sid"));
                 u.setType(rs.getString("userType"));
-                return u;
+
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
-            return null;
+        return u;
 
     }
 
@@ -76,9 +76,7 @@ public class UserDaoImpl  {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 //        UserDaoImpl.addUser("1010101010","123456");
-        User us = UserDaoImpl.findUserbyID("1010101010");
-        System.out.println(us.getPhone());
-        System.out.println(us.getSid());
-        System.out.println(us.getType());
+        User us = UserDaoImpl.findUserbyID("10101010");
+        System.out.println(us.getSid().equals("-1"));
     }
 }

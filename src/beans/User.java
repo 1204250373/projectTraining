@@ -9,7 +9,7 @@ public class User {
     private double balance=0;
 
     public User(){
-        super();
+        this.sid = "-1";
     }
 
     public String getSid() {
@@ -61,7 +61,7 @@ public class User {
         this.balance = balance;
     }
 
-    public User(String name, String id, String password, String sid , String type , String phone ,double balance) {
+    public User( String id, String password, String sid , String type , String phone ,double balance) {
         this.id = id;
         this.password = password;
         this.balance = balance;

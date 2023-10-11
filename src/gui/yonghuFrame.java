@@ -1,9 +1,11 @@
 package gui;
 
 
+import beans.User;
 import dao.impl.GetNewTime;
 import dao.impl.SSGBook;
 import dao.impl.ScreenUtils;
+import dao.impl.UserDaoImpl;
 import dbutils.DBHelper;
 
 import javax.imageio.ImageIO;
@@ -22,7 +24,7 @@ public class yonghuFrame {
 	final int HEIGTH = 700;
 	
 	//组装视图
-	public yonghuFrame(){
+	public yonghuFrame(User user){
 		//给窗口设置属性
 	    jf.setResizable(false);
 	    //把图片添加到标签里（把标签的大小设为和图片大小相同），把标签放在分层面板的最底层；
@@ -163,7 +165,7 @@ public class yonghuFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new newOn("wyjyh");
+					new newOn(user.getSid());
 				} catch (SQLException throwables) {
 					throwables.printStackTrace();
 				}
@@ -174,7 +176,7 @@ public class yonghuFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SoldBookFrame("wyjyh");
+				SoldBookFrame(user.getSid());
 
 			}
 		});
@@ -202,7 +204,7 @@ public class yonghuFrame {
 
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 //		try {
 //            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 //                if ("Nimbus".equals(info.getName())) {
@@ -213,7 +215,8 @@ public class yonghuFrame {
 //        }catch(Exception e) {
 //         System.out.println(e);
 //        }
-		yonghuFrame y1 = new yonghuFrame();
+		User user = UserDaoImpl.findUserbyID("2240129516");
+		yonghuFrame y1 = new yonghuFrame(user);
 
 	}
 
