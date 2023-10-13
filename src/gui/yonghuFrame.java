@@ -166,11 +166,19 @@ public class yonghuFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					new newOn(user.getSid());
-				} catch (SQLException throwables) {
-					throwables.printStackTrace();
+				if(user.getPhone()!=null){
+					try {
+						new newOn(user.getSid());
+					} catch (SQLException throwables) {
+						throwables.printStackTrace();
+					}
+				}else{
+//					System.out.println("123");
+					//通过认证，给账号添加phone才能出售商品
+					JOptionPane.showMessageDialog(jf, "需通过认证");
+
 				}
+
 
 			}
 		});
@@ -235,9 +243,12 @@ public class yonghuFrame {
 //        }catch(Exception e) {
 //         System.out.println(e);
 //        }
-		User user = UserDaoImpl.findUserbyID("2240129516");
+		User user = UserDaoImpl.findUserbyID("2240129515");
 		yonghuFrame y1 = new yonghuFrame(user);
 
 	}
+
+
+
 
 }
