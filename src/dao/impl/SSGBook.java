@@ -4,11 +4,8 @@ import dao.Compare;
 import dbutils.DBHelper;
 
 import javax.swing.*;
-import java.awt.print.Book;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SSGBook {
@@ -62,6 +59,7 @@ public class SSGBook {
 
         //String soldTime = GetNewTime.GetTime();//卖出时间
         Vector<String> book = GetBook(BookID);
+        assert book != null;
         int bookRep = Integer.parseInt(book.get(NOWREPERTORY)) ;//库存
         String bookState = book.get(BOOKSTATE);
         int minRepertory = Integer.parseInt(book.get(MINREPERTORY)) ;
@@ -85,10 +83,6 @@ public class SSGBook {
         return false;
     }
 
-    //创建销售日志
-    public  static void LogSoldBook(){
-
-    }
 
     //删除书籍信息
     public static boolean DeleteBook(String BookID) throws SQLException {
@@ -100,12 +94,13 @@ public class SSGBook {
     //重新上架
     public static boolean UpShelfBook(String Id) throws SQLException {
         Vector<String > book = GetBook(Id);
-        Integer NewRep = Integer.parseInt( book.get(NOWREPERTORY));
-        Integer MinRep = Integer.parseInt( book.get(MINREPERTORY));
+        assert book != null;
         String State = book.get(BOOKSTATE);
         if(State.equals("上架中")){
             return true;
         }else{
+            int NewRep = Integer.parseInt( book.get(NOWREPERTORY));
+            int MinRep = Integer.parseInt( book.get(MINREPERTORY));
             if(NewRep>MinRep){
                 String sql ="Update books set BookState ='上架中' where BookId ='"+Id+"';";
                 DBHelper.update(sql);
@@ -188,7 +183,7 @@ public class SSGBook {
         return BOOKS;
     }
 
-    private static void quickSort(Vector<Vector<String>> books, int low, int high, int CompareVALUE,Compare compare) {
+    public static void quickSort(Vector<Vector<String>> books, int low, int high, int CompareVALUE,Compare compare) {
         if (low < high) {
             // 找到基准元素的位置
             int pivotIndex = partition(books, low, high,CompareVALUE,compare);
@@ -249,13 +244,13 @@ public class SSGBook {
 
     final static int MAXBOOSNUM = 50;
     final static int BOOKATTRUVYTE = 7;
-    private final static int BOOKID = 0;
-    private final static int BOOKNAME = 1;
-    private final static int BOOKSTATE = 2;
-    private final static int NOWREPERTORY = 3;
-    private final static int BOOKPRICE = 4;
-    private final static int VENDOR = 5;
-    private final static int MINREPERTORY = 6;
+    public final static int BOOKID = 0;
+    public final static int BOOKNAME = 1;
+    public final static int BOOKSTATE = 2;
+    public final static int NOWREPERTORY = 3;
+    public final static int BOOKPRICE = 4;
+    public final static int VENDOR = 5;
+    public final static int MINREPERTORY = 6;
 
 
    static Compare up_compare = (s1, s2) -> Float.parseFloat(s1)<Float.parseFloat(s2);

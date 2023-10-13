@@ -1,9 +1,11 @@
 package gui;
 
 
+import beans.User;
 import dao.impl.GetNewTime;
 import dao.impl.SSGBook;
 import dao.impl.ScreenUtils;
+import dao.impl.UserDaoImpl;
 import dbutils.DBHelper;
 
 import javax.imageio.ImageIO;
@@ -22,7 +24,7 @@ public class yonghuFrame {
 	final int HEIGTH = 700;
 	
 	//组装视图
-	public yonghuFrame(){
+	public yonghuFrame(User user){
 		//给窗口设置属性
 	    jf.setResizable(false);
 	    //把图片添加到标签里（把标签的大小设为和图片大小相同），把标签放在分层面板的最底层；
@@ -53,14 +55,15 @@ public class yonghuFrame {
 		
 		
 		JMenu jm2 = new JMenu("出售管理");
-		JMenuItem jmi3 = new JMenuItem("出售商品");
+		JMenuItem jmi3 = new JMenuItem("处理订单");
 		JMenuItem jmi4 = new JMenuItem("管理出售商品");
 		//JMenuItem jmi5 = new JMenuItem("查看商品库存信息");
 		//JMenuItem jmi9 = new JMenuItem("添加新商品");
 		
 		JMenu jm5 = new JMenu("销售系统");
+		JMenuItem jmi5 = new JMenuItem("处理购买订单");
 		JMenuItem jmi6 = new JMenuItem("销售书籍");
-		
+
 		JMenu jm6 = new JMenu("订单系统");
 		JMenuItem jmi7 = new JMenuItem("查看商品订单信息");
 		JMenuItem jmi8 = new JMenuItem("订单处理");
@@ -79,6 +82,7 @@ public class yonghuFrame {
 		jmb.add(jm2);
 		
 		jm5.add(jmi6);
+		jm5.add(jmi5);
 		jmb.add(jm5);
 		
 		jm6.add(jmi7);
@@ -99,7 +103,7 @@ public class yonghuFrame {
 		jmi2.setFont(font2);
 		jmi3.setFont(font2);
 		jmi4.setFont(font2);
-	//	jmi5.setFont(font2);
+		jmi5.setFont(font2);
 		jmi6.setFont(font2);
 		jmi7.setFont(font2);
 		jmi8.setFont(font2);
@@ -163,18 +167,36 @@ public class yonghuFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new newOn("wyjyh");
+					new newOn(user.getSid());
 				} catch (SQLException throwables) {
 					throwables.printStackTrace();
 				}
 
 			}
 		});
+		//订单管理
 		jmi3.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SoldBookFrame("wyjyh");
+				try {
+					new DoGoodsFrame(user);
+				} catch (SQLException throwables) {
+					throwables.printStackTrace();
+				}
+
+			}
+		});
+		//买家订单记录
+		jmi5.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					new BuyerSeeGoodsFrame(user);
+				} catch (SQLException throwables) {
+					throwables.printStackTrace();
+				}
 
 			}
 		});
@@ -184,7 +206,7 @@ public class yonghuFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new SalesQuery();
+					new SalesQuery(user);
 				} catch (SQLException throwables) {
 					throwables.printStackTrace();
 				}
@@ -202,7 +224,7 @@ public class yonghuFrame {
 
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 //		try {
 //            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 //                if ("Nimbus".equals(info.getName())) {
@@ -213,125 +235,9 @@ public class yonghuFrame {
 //        }catch(Exception e) {
 //         System.out.println(e);
 //        }
-		yonghuFrame y1 = new yonghuFrame();
+		User user = UserDaoImpl.findUserbyID("2240129516");
+		yonghuFrame y1 = new yonghuFrame(user);
 
 	}
 
-	//出售窗口
-	private void SoldBookFrame(String user){
-
-		JFrame soldBookFrame = new JFrame();
-		String time = GetNewTime.GetTime();
-		soldBookFrame.setTitle("出售界面");
-		JPanel panel = new JPanel();
-
-		// 设置box
-		Box box = Box.createVerticalBox();
-		Box b1 = Box.createHorizontalBox();
-		Box b2 = Box.createHorizontalBox();
-		Box b3 = Box.createHorizontalBox();
-		Box b4 = Box.createHorizontalBox();
-		Box b5 = Box.createHorizontalBox();
-		Box b6 = Box.createHorizontalBox();
-		Box b7 = Box.createHorizontalBox();
-		Box b8 = Box.createHorizontalBox();
-		Box b9 = Box.createHorizontalBox();
-		// 设置标签
-		JLabel l2 = new JLabel("商品名称:");
-		JLabel l3 = new JLabel("商品单价:");
-		JLabel l4 = new JLabel("上架存量:");
-		JLabel l5 = new JLabel("最低存量:");
-
-		// 设置文本框
-		JTextField jtf2 = new JTextField(20);
-		JTextField jtf3 = new JTextField(20);
-		JTextField jtf4 = new JTextField(20);
-		JTextField jtf5 = new JTextField(20);
-
-		// 设置按钮
-		JButton jb1 = new JButton("添加");
-		{
-
-			b7.add(Box.createHorizontalStrut(20));
-			b2.add(l2);
-			b2.add(Box.createHorizontalStrut(20));
-			b2.add(jtf2);
-			b3.add(l3);
-			b3.add(Box.createHorizontalStrut(20));
-			b3.add(jtf3);
-			b4.add(l4);
-			b4.add(Box.createHorizontalStrut(20));
-			b4.add(jtf4);
-			b5.add(l5);
-			b5.add(Box.createHorizontalStrut(20));
-			b5.add(jtf5);
-			b8.add(Box.createHorizontalStrut(20));
-			b9.add(jb1);
-		}
-		{
-			box.add(Box.createVerticalStrut(30));
-			box.add(b1);
-			box.add(Box.createVerticalStrut(10));
-			box.add(b7);
-			box.add(Box.createVerticalStrut(10));
-			box.add(b2);
-			box.add(Box.createVerticalStrut(10));
-			box.add(b3);
-			box.add(Box.createVerticalStrut(10));
-			box.add(b8);
-			box.add(b6);
-			box.add(b4);
-			box.add(Box.createVerticalStrut(10));
-
-			box.add(b5);
-			box.add(Box.createVerticalStrut(10));
-
-			box.add(b9);
-		}
-		// 设置字体
-		{
-			l2.setFont(new Font("仿宋", Font.BOLD + Font.ITALIC, 20));
-			l3.setFont(new Font("仿宋", Font.BOLD + Font.ITALIC, 20));
-			l4.setFont(new Font("仿宋", Font.BOLD + Font.ITALIC, 20));
-			l5.setFont(new Font("仿宋", Font.BOLD + Font.ITALIC, 20));
-			jtf2.setFont(new Font("仿宋", Font.BOLD + Font.ITALIC, 20));
-			jtf3.setFont(new Font("仿宋", Font.BOLD + Font.ITALIC, 20));
-			jtf4.setFont(new Font("仿宋", Font.BOLD + Font.ITALIC, 20));
-			jtf5.setFont(new Font("仿宋", Font.BOLD + Font.ITALIC, 20));
-			jb1.setFont(new Font("仿宋", Font.BOLD + Font.ITALIC, 30));
-		}
-		panel.add(box);
-
-
-		soldBookFrame.setContentPane(panel);
-		soldBookFrame.setSize(577, 377);// 大小
-		soldBookFrame.setLocationRelativeTo(null);// 居中
-		soldBookFrame.setVisible(true);
-		soldBookFrame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				super.windowClosing(e);
-				soldBookFrame.dispose();
-			}
-		});
-
-		jb1.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				String Name = jtf2.getText();
-				String Price = jtf3.getText();
-				String NowRepretory = jtf4.getText();
-				String MinRepretory = jtf5.getText();
-				SSGBook.SetBook(user,Name,NowRepretory,MinRepretory,Price);
-				soldBookFrame.dispose();
-				JOptionPane.showMessageDialog(jf, "添加成功");
-
-
-
-			}
-		});
-
-	}
 }

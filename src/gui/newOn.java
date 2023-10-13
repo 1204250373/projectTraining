@@ -2,9 +2,7 @@ package gui;
 
 import dao.impl.GetNewTime;
 import dao.impl.SSGBook;
-import dbutils.DBHelper;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -14,9 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Vector;
@@ -31,13 +26,13 @@ public class newOn implements ActionListener {
 	Vector<String> columnNames;
 	Vector<Vector<String>> data;
 
-	// 组装视图
+	// 组装视图  user传用户的限制唯一的字段
 	public newOn(String user) throws SQLException {
 		// 创建面板
 		JPanel panel = new JPanel();
 		// 表格
-		columnNames =  new Vector<String>(Arrays.asList("出售编号", "书籍名称", "出售状态", "存量",
-				"价格","卖家", "最低库存"));// 表头
+		columnNames = new Vector<>(Arrays.asList("出售编号", "书籍名称", "出售状态", "存量",
+				"价格", "卖家", "最低库存"));// 表头
 		jtf1 = new JTextField(5);
 		table = new JTable(model);//表头和内容放入表
 		data = SSGBook.SeekBooks_Vendor(user);// 获取表内容
@@ -338,7 +333,7 @@ public class newOn implements ActionListener {
 				String Price = jtf3.getText();
 				String NowRepretory = jtf4.getText();
 				String MinRepretory = jtf5.getText();
-				if(SSGBook.ChangeBook(Id,Name,Price,NowRepretory,MinRepretory)==true){
+				if(SSGBook.ChangeBook(Id, Name, Price, NowRepretory, MinRepretory)){
 					alterBookFrame.dispose();
 					JOptionPane.showMessageDialog(new JFrame(), "修改成功");
 

@@ -1,7 +1,11 @@
 package gui;
 
+import beans.User;
+import dao.impl.DoOrder;
 import dao.impl.GetNewTime;
 import dao.impl.SSGBook;
+import dao.impl.UserDaoImpl;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -28,21 +32,16 @@ public class SalesQuery implements ActionListener{
 
 
 	//组装视图
-	public SalesQuery() throws SQLException {
+	public SalesQuery(User user) throws SQLException {
 		//创建面板
 		JPanel panel = new JPanel();
 		//表格
-		columnNames = new Vector<String>(Arrays.asList(new String[]{"书籍销售编号", "书籍名称", "书籍状态", "书籍存量", "销售单价(￥)", "卖家"}));//表头
-		//data = new Demo01().table();//获取表内容
+		columnNames = new Vector<String>(Arrays.asList(new String[]{"书籍销售编号", "书籍名称", "书籍状态", "书籍存量", "销售单价(￥)", "卖家", "最低库存"}));//表头
+
 		Vector<Vector<String>> data = SSGBook.GetBookAll();//获取表内容
 		SSGBook.SortBook_State_DOWN(data);
 		model = new DefaultTableModel(data,columnNames);
 		table = new JTable(model);//表头和内容放入表
-//		table= new JTable(model) {
-//			public boolean isCellEditable(int row, int column) {
-//				return false;
-//			}// 表格不允许被编辑
-//		};
 		JTableHeader tableHeader = table.getTableHeader();
 		tableHeader.setReorderingAllowed(false);//表示所有的列都不可以拖动
 		table.setRowHeight(25);//设置行高
@@ -64,11 +63,8 @@ public class SalesQuery implements ActionListener{
 		b2.add(l3);
 		b2.add(jtf3);
 		b2.add(l1);
-		//b2.add(Box.createHorizontalStrut(20));
 		b2.add(jtf1);
-		//b2.add(Box.createHorizontalStrut(40));
 		b2.add(l2);
-		//b2.add(Box.createHorizontalStrut(20));
 		b2.add(jtf2);
 
 
@@ -199,10 +195,10 @@ public class SalesQuery implements ActionListener{
 				if(!s3.equals("")){
 					try {
 						data = SSGBook.SeekBooks_BookID(s3);
-						if(Integer.parseInt(data.get(0).get(NOWREPERTORY))<=0){
+						if(Integer.parseInt(data.get(0).get(SSGBook.NOWREPERTORY))<=0){
 							JOptionPane.showMessageDialog(jf, "无法购买，该书籍已下架");
 						}else {
-							SaleBookFrame(data.get(0));
+							SaleBookFrame(user,data.get(0));
 						}
 					} catch (SQLException throwables) {
 						throwables.printStackTrace();
@@ -210,10 +206,10 @@ public class SalesQuery implements ActionListener{
 				}else if(!s1.equals("")&&!s2.equals("")){
 					try {
 						data = SSGBook.SeekBooks_VendorAndBookName(s1,s2);
-						if(Integer.parseInt(data.get(0).get(NOWREPERTORY))<=0){
+						if(Integer.parseInt(data.get(0).get(SSGBook.NOWREPERTORY))<=0){
 							JOptionPane.showMessageDialog(jf, "无法购买，该书籍已下架");
 						}else{
-							SaleBookFrame(data.get(0));
+							SaleBookFrame(user,data.get(0));
 						}
 
 					} catch (SQLException throwables) {
@@ -228,8 +224,9 @@ public class SalesQuery implements ActionListener{
 		});
 	}
 	public static void main(String[] args) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		User user = UserDaoImpl.findUserbyID("2240129516");
 
-		SalesQuery s1 = new SalesQuery();
+		SalesQuery s1 = new SalesQuery(user);
 
 	}
 
@@ -257,13 +254,13 @@ public class SalesQuery implements ActionListener{
 	}
 
 	//订单窗口
-	private void  SaleBookFrame(Vector<String> thisBook) {
+	private void  SaleBookFrame(User buyer ,Vector<String> thisBook) {
 
 
 		JFrame saleframe = new JFrame();
 		String time =GetNewTime.GetTime();
 		saleframe.setTitle("订单处理界面");
-		String type[] = {"微信", "支付宝", "银行"};
+		String[] type = {"微信", "支付宝", "银行"};
 		JComboBox jcb = new JComboBox(type);
 		JPanel panel = new JPanel();
 
@@ -290,17 +287,16 @@ public class SalesQuery implements ActionListener{
 		JLabel l8 = new JLabel("订单时间:");
 
 		// 设置文本框
-		JLabel jtf1 = new JLabel(thisBook.get(BOOKID));
-		JLabel jtf2 = new JLabel(thisBook.get(BOOKNAME));
-		JLabel jtf3 = new JLabel(thisBook.get(BOOKPRICE));
-		String bugnum[] = {"1","2","3","4","5"};
+		JLabel jtf1 = new JLabel(thisBook.get(SSGBook.BOOKID));
+		JLabel jtf2 = new JLabel(thisBook.get(SSGBook.BOOKNAME));
+		JLabel jtf3 = new JLabel(thisBook.get(SSGBook.BOOKPRICE));
+		String[] bugnum = {"1","2","3","4","5"};
 		JComboBox jtf4 = new JComboBox(bugnum);
-		JLabel jtf5 = new JLabel(thisBook.get(BOOKPRICE));
-		JLabel jtf6 = new JLabel(thisBook.get(BOOKSTATE));
+		JLabel jtf5 = new JLabel(thisBook.get(SSGBook.BOOKPRICE));
+		JLabel jtf6 = new JLabel(thisBook.get(SSGBook.BOOKSTATE));
 		JLabel jtf7 = new JLabel(time);
 		// 设置按钮
 		JButton jb1 = new JButton("支付");
-		//JButton jb2 = new JButton("查看订单情况");
 		{
 			b1.add(l1);
 			b1.add(Box.createHorizontalStrut(20));
@@ -327,8 +323,6 @@ public class SalesQuery implements ActionListener{
 			b8.add(Box.createHorizontalStrut(20));
 			b8.add(jtf7);
 			b9.add(jb1);
-			//b9.add(Box.createHorizontalStrut(130));
-			//b9.add(jb2);
 		}
 		{
 			box.add(Box.createVerticalStrut(30));
@@ -339,17 +333,12 @@ public class SalesQuery implements ActionListener{
 			box.add(b7);
 			box.add(b8);
 			box.add(Box.createVerticalStrut(10));
-
 			box.add(b6);
 			box.add(Box.createVerticalStrut(10));
-
 			box.add(b4);
-
 			box.add(b5);
 			box.add(Box.createVerticalStrut(10));
-
 			box.add(b9);
-			//box.add(Box.createVerticalStrut(30));
 		}
 		// 设置字体
 		{
@@ -386,8 +375,7 @@ public class SalesQuery implements ActionListener{
 				saleframe.dispose();
 			}
 		});
-		//jtf6.setText("下单");
-		//支付按钮（未完全）
+		//支付按钮
 		jb1.addActionListener(new ActionListener() {
 
 			@Override
@@ -395,9 +383,10 @@ public class SalesQuery implements ActionListener{
 				Vector<Vector<String>> data = null;
 				try {
 					Integer i1 =Integer.parseInt((String) jtf4.getSelectedItem());
-					if(SSGBook.SoldBook(thisBook.get(BOOKID),i1)){
+					if(SSGBook.SoldBook(thisBook.get(SSGBook.BOOKID),i1)){
+
 						//创建记录
-						SSGBook.LogSoldBook();
+						DoOrder.LogSoldBook(buyer,thisBook.get(SSGBook.BOOKID),(String)jtf4.getSelectedItem(),jtf5.getText());
 						//刷新原页数据
 						data = SSGBook.GetBookAll();
 						SSGBook.SortBook_State_DOWN(data);
@@ -407,10 +396,14 @@ public class SalesQuery implements ActionListener{
 						JOptionPane.showMessageDialog(jf, "购买成功");
 					}
 
-
-
 				} catch (SQLException throwables) {
 					throwables.printStackTrace();
+				} catch (IllegalAccessException illegalAccessException) {
+					illegalAccessException.printStackTrace();
+				} catch (InstantiationException instantiationException) {
+					instantiationException.printStackTrace();
+				} catch (ClassNotFoundException classNotFoundException) {
+					classNotFoundException.printStackTrace();
 				}
 
 			}
@@ -420,19 +413,13 @@ public class SalesQuery implements ActionListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Float f1 =Float.parseFloat((String) jtf4.getSelectedItem());
-				Float f2 =Float.parseFloat(thisBook.get(BOOKPRICE));
+				Float f2 =Float.parseFloat(thisBook.get(SSGBook.BOOKPRICE));
 				jtf5.setText(Float.toString(f1*f2));
 			}
 		});
 	}
 
-	private final static int BOOKID = 0;
-	private final static int BOOKNAME = 1;
-	private final static int BOOKSTATE = 2;
-	private final static int NOWREPERTORY = 3;
-	private final static int BOOKPRICE = 4;
-	private final static int VENDOR = 5;
-	private final static int MINREPERTORY = 6;
+
 
 }
 

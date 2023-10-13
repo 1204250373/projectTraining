@@ -1,110 +1,82 @@
 package dao.impl;
 
 import beans.User;
-import dao.UserDao;
 import dbutils.DBHelper;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl  {
     /*
     @param id
     @return 返回对应id账号的User对象，如果不存在返回null
      */
-    @Override
-    public User findUserbyID(String id) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+    public static User findUserbyID(String sid) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         //TODO Auto-generated method stub
-        if (id == null){
-            return null;
-        }
-        Connection conn = DBHelper.getConnection();
-        String sql = "select * from User WHERE id='" + id +"';";
-        PreparedStatement stat = null;
-        ResultSet rs = null;
-        User u = new User();
+        String sql = "select * from myuser WHERE sid='" + sid +"';";
+        ResultSet rs =  DBHelper.query(sql);
+        User u = new User();//无参构造时使sid=-1；用于检测有无此用户
         try{
-            stat = conn.prepareStatement(sql);
-            rs = stat.executeQuery(); //executeQuery 该方法用来执行查询语句
-            while (rs.next()){
-                u.setId(rs.getString("id"));
-                u.setName(rs.getString("name"));
+            if (rs.next()){
+                u.setId(rs.getString("uid"));
                 u.setPassword(rs.getString("password"));
-                u.setBalance(rs.getDouble("balance"));
+                u.setBalance(rs.getDouble("userBalance"));
+                u.setPhone(rs.getString("phone"));
+                u.setSid(rs.getString("sid"));
+                u.setType(rs.getString("userType"));
+
             }
         }catch (SQLException e){
             e.printStackTrace();
-        }finally {
-            //DBHelper.closeAll(conn,stat,rs);
         }
-        if (u.getId().equals(""))
-            return null;
-        else
-            return u;
+        return u;
+
     }
 
-    /*
-    插入空账户，用于注册
-     */
-    @Override
-    public void creatNewUser() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-        //TODO Auto-generated method stub
-        Connection conn = DBHelper.getConnection();
-        String sql = "INSERT USER (id,name,password,balance) VALUE(null,null,null,null);";
-        PreparedStatement stat = null;
-        ResultSet rs = null;
-        try {
-            stat = conn.prepareStatement(sql);
-            stat.executeUpdate();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }finally {
-            DBHelper.closeAll(conn,stat,rs);
-        }
-    }
     /*
     设置空账户ID，用于注册，正式添加用户
     @param id        根据ID序列号生成的ID账号
     @param serialNum
      */
-    @Override
-    public void addUser(String id, int serialNum) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-        Connection conn = DBHelper.getConnection();
-        String sql = "UPDATE User SET id ='" + id + "'WHERE serialNum ='" + serialNum + "';";
-        PreparedStatement stat = null;
-        ResultSet rs = null;
-        try{
-            stat = conn.prepareStatement(sql);
-            stat.executeUpdate();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }finally {
-            DBHelper.closeAll(conn,stat,rs);
+    public static void addUser(String sid, String password) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+
+        String sql = "SELECT * from myuser where sid ='"+sid+"';";
+        ResultSet rs = DBHelper.query(sql);
+        if(rs.next()){
+            JOptionPane.showMessageDialog(new JFrame(), "该学号已被注册");
+        }else{
+            sql = "INSERT into myuser (phone,sid,password,userType,userBalance) VALUE(null,'"+sid+"','"+password+"','用户',0);";
+            DBHelper.update(sql);
+
         }
+
     }
     /*
     更新制定user的所有数据
     @param user 已设定好数据的user对象
      */
-    @Override
     public void updateUser(User user) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-        //TODO Auto-generated method stub
-        Connection conn = DBHelper.getConnection();
-        String sql = "UPDATE User SET name ='" + user.getName() +
-                "',password = '" + user.getPassword() + "',balance =" +
-                user.getBalance() + "WHERE id ='" + user.getId() + "';";
-        PreparedStatement stat = null;
-        ResultSet rs = null;
-        try{
-            stat = conn.prepareStatement(sql);
-            stat.executeUpdate();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }finally {
-            DBHelper.closeAll(conn,stat,rs);
-        }
+//        //TODO Auto-generated method stub
+//        Connection conn = DBHelper.getConnection();
+//        String sql = "UPDATE User SET name ='" + user.getName() +
+//                "',password = '" + user.getPassword() + "',balance =" +
+//                user.getBalance() + "WHERE id ='" + user.getId() + "';";
+//        PreparedStatement stat = null;
+//        ResultSet rs = null;
+//        try{
+//            stat = conn.prepareStatement(sql);
+//            stat.executeUpdate();
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//        }finally {
+//            DBHelper.closeAll(conn,stat,rs);
+//        }
     }
 
+    public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+//        UserDaoImpl.addUser("1010101010","123456");
+        User us = UserDaoImpl.findUserbyID("10101010");
+        System.out.println(us.getSid().equals("-1"));
+    }
 }
