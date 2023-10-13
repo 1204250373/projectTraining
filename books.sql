@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80032
 File Encoding         : 65001
 
-Date: 2023-10-06 21:52:44
+Date: 2023-10-14 00:35:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,23 +28,23 @@ CREATE TABLE `books` (
   `NowRepertory` int NOT NULL,
   `MinRepertory` int NOT NULL,
   PRIMARY KEY (`BookID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1030 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1032 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_520_ci;
 
 -- ----------------------------
 -- Records of books
 -- ----------------------------
-INSERT INTO `books` VALUES ('1001', '5', '数据结构与原理', '32.00', '上架中', '1', '0');
-INSERT INTO `books` VALUES ('1011', '12', '马克思基本原理', '20.00', '下架', '0', '0');
-INSERT INTO `books` VALUES ('1012', 'wyjyh', '高等数学', '34.00', '上架中', '77', '7');
-INSERT INTO `books` VALUES ('1016', '12', '计算机网络', '39.00', '下架', '0', '0');
-INSERT INTO `books` VALUES ('1017', '12', '计算机组成原理', '38.00', '上架中', '1', '0');
-INSERT INTO `books` VALUES ('1020', 'wyjyh', '思想道德与法治', '23.00', '上架中', '11', '0');
-INSERT INTO `books` VALUES ('1021', 'wyjyh', 'Linux系统入门与实战', '34.00', '上架中', '11', '0');
-INSERT INTO `books` VALUES ('1022', 'wyjyh', '深入理解计算机系统', '80.00', '上架中', '119', '0');
-INSERT INTO `books` VALUES ('1023', 'wyjyh', '离散数学', '34.00', '上架中', '25', '0');
-INSERT INTO `books` VALUES ('1024', 'wyjyh', '线性代数', '12.00', '上架中', '12', '7');
-INSERT INTO `books` VALUES ('1025', 'wyjyh', 'C语言程序设计', '66.00', '上架中', '41', '0');
-INSERT INTO `books` VALUES ('1026', 'wyjyh', '中国近现代史', '34.00', '上架中', '15', '0');
-INSERT INTO `books` VALUES ('1027', 'wyjyh', '挪威的森林', '31.00', '上架中', '21', '7');
-INSERT INTO `books` VALUES ('1028', 'wyjyh', '计算机科学导论', '29.00', '上架中', '23', '5');
-INSERT INTO `books` VALUES ('1029', 'wyjyh', '形势与政策', '20.00', '上架中', '100', '5');
+INSERT INTO `books` VALUES ('1001', '2240129623', '数据结构与原理', '32.00', '下架', '0', '0');
+INSERT INTO `books` VALUES ('1011', '2240129623', '马克思基本原理', '20.00', '下架', '0', '0');
+INSERT INTO `books` VALUES ('1012', '2240129107', '高等数学', '34.00', '上架中', '53', '7');
+INSERT INTO `books` VALUES ('1016', '2240129107', '计算机网络', '39.00', '下架', '0', '0');
+INSERT INTO `books` VALUES ('1017', '2240129107', '计算机组成原理', '38.00', '下架', '0', '0');
+INSERT INTO `books` VALUES ('1020', '2240129623', '思想道德与法治', '23.00', '上架中', '5', '0');
+INSERT INTO `books` VALUES ('1021', '2240129107', 'Linux系统入门与实战', '34.00', '上架中', '9', '0');
+INSERT INTO `books` VALUES ('1022', '2240129623', '深入理解计算机系统', '80.00', '上架中', '118', '0');
+INSERT INTO `books` VALUES ('1023', '2240129107', '离散数学', '34.00', '上架中', '23', '0');
+INSERT INTO `books` VALUES ('1025', '2240129107', 'C语言程序设计', '66.00', '上架中', '37', '0');
+INSERT INTO `books` VALUES ('1026', '2240129623', '中国近现代史', '34.00', '上架中', '14', '0');
+INSERT INTO `books` VALUES ('1027', '2240129623', '挪威的森林', '31.00', '下架', '21', '25');
+INSERT INTO `books` VALUES ('1028', '2240129107', '计算机科学导论', '29.00', '上架中', '18', '5');
+INSERT INTO `books` VALUES ('1029', '2240129623', '形势与政策', '20.00', '下架', '4', '5');
+INSERT INTO `books` VALUES ('1031', '2240129107', '马克思理论', '10.00', '下架', '0', '0');
