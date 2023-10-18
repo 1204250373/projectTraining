@@ -120,7 +120,7 @@ public class yonghuFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					new dengluFrame();
+					new LoginFrame();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

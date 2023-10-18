@@ -17,7 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class dengluFrame {
+public class LoginFrame {
 	 JTextField userField;
 	  JFrame jf = new JFrame("µÇÂ¼");
 	
@@ -25,7 +25,7 @@ public class dengluFrame {
 		final int HEIGTH = 400;
 		
 		//×é×°ÊÓÍ¼
-		public dengluFrame() throws Exception{
+		public LoginFrame() throws Exception{
 			//ImageIcon bg = new ImageIcon("src/com/hua/8.jpg");
 			//JLabel label = new JLabel(bg);
 			//label.setSize(bg.getIconWidth(),bg.getIconHeight());
@@ -54,8 +54,7 @@ public class dengluFrame {
 			b4.add(rb1);
 			b4.add(Box.createHorizontalStrut(40));
 			b4.add(rb2);
-		
-			
+
 			//×é×°ÕËºÅÎÄ±¾¿ò
 			Box b1 = Box.createHorizontalBox();
 			JLabel label2 = new JLabel("ÕË ºÅ£º");
@@ -98,10 +97,8 @@ public class dengluFrame {
 			allBox.add(b2);
 			allBox.add(Box.createVerticalStrut(50));
 			allBox.add(b3);
-			
-			
+
 			pan.add(l1);
-			
 			
 			pan.add(allBox);
 			
@@ -112,16 +109,14 @@ public class dengluFrame {
 			jf.setLocationRelativeTo(null);
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			jf.setVisible(true);
-			
-			
-			
+
+
 			jb3Button.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					userField.setText("");
 					passwordField.setText("");
-
 				}
 			});
 
@@ -181,7 +176,7 @@ public class dengluFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new zhuceFrame();
+					new registerFrame();
 				}
 			});
 			
@@ -196,19 +191,17 @@ public class dengluFrame {
 				}else{
 					JOptionPane.showMessageDialog(new JFrame(), "ÃÜÂë´íÎó");
 					return false;
-
 				}
 			}else{
 				JOptionPane.showMessageDialog(new JFrame(), "¸ÃÑ§ºÅÎ´×¢²á");
 				return false;
-
 			}
 		}
 		
 
 	public static void main(String[] args) throws Exception {
 
-			dengluFrame d1 = new dengluFrame();
+			LoginFrame d1 = new LoginFrame();
 
 	}
 

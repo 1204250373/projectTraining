@@ -113,13 +113,21 @@ public class SSGBook {
 
     }
     //修改书籍信息
-    public static boolean ChangeBook(String id , String Name ,String Price , String NowRepretory ,String MinRepretory){
-        String sql ="update books set BookName = '"+Name+"',BookPrice = '"+Price+"',NowRepertory = '"
-                +NowRepretory+"',MinRepertory='"+MinRepretory+"' where BookID = '"+id+"';";
-        DBHelper.update(sql);
-        if(Integer.parseInt(NowRepretory)<=Integer.parseInt(MinRepretory)){
-            sql ="Update books set BookState ='下架' where BookId ='"+id+"';";
+    public static boolean ChangeBook(String id , String Name ,String Price , String NowRepretory ,String MinRepretory,String BookState){
+        String sql;
+        if(BookState.equals("下架")){
+            sql ="update books set BookName = '"+Name+"',BookPrice = '"+Price+"',NowRepertory = '"
+                    +NowRepretory+"',MinRepertory='"+MinRepretory+"',BookState ='下架' where BookID = '"+id+"';";
             DBHelper.update(sql);
+        }else{
+            if(Integer.parseInt(NowRepretory)<=Integer.parseInt(MinRepretory)){
+                JOptionPane.showMessageDialog(new JFrame(), "低于库存无法上架");
+                return false;
+            }else{
+                sql ="update books set BookName = '"+Name+"',BookPrice = '"+Price+"',NowRepertory = '"
+                        +NowRepretory+"',MinRepertory='"+MinRepretory+"',BookState ='上架中' where BookID = '"+id+"';";
+                DBHelper.update(sql);
+            }
         }
         return true;
     }

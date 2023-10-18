@@ -22,7 +22,7 @@ import javax.swing.JTextField;
 
 
 
-public class zhuceFrame {
+public class registerFrame {
 
 	 JFrame jf = new JFrame("注册");
 		
@@ -32,7 +32,7 @@ public class zhuceFrame {
 	JPasswordField passwordField;
 	JPasswordField passwordField2;
 		//组装视图
-		public zhuceFrame(){
+		public registerFrame(){
 			JPanel pan = (JPanel)jf.getContentPane();
 			pan.setOpaque(false);//透明
 			pan.setLayout(new FlowLayout());
@@ -160,9 +160,7 @@ public class zhuceFrame {
 
 
 				}
-
 			});
-
 		}
 
 	private  void clearText(){
@@ -171,7 +169,7 @@ public class zhuceFrame {
 		passwordField2.setText("");
 	}
 	public static void main(String[] args) {
-		zhuceFrame z1 = new zhuceFrame();
+		registerFrame RF = new registerFrame();
 	}
 
 }

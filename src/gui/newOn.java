@@ -246,7 +246,10 @@ public class newOn implements ActionListener {
 		JTextField jtf3 = new JTextField(thisBook.get(BOOKPRICE));
 		JTextField jtf4 = new JTextField(thisBook.get(NOWREPERTORY));
 		JTextField jtf5 = new JTextField(thisBook.get(MINREPERTORY));
-		JLabel jtf6 = new JLabel(thisBook.get(BOOKSTATE));
+
+		String[] type = {"上架中", "下架"};
+		JComboBox jtf6 = new JComboBox(type);
+		jtf6.setSelectedItem(thisBook.get(SSGBook.BOOKSTATE));
 
 		// 设置按钮
 		JButton jb1 = new JButton("修改");
@@ -333,20 +336,18 @@ public class newOn implements ActionListener {
 				String Price = jtf3.getText();
 				String NowRepretory = jtf4.getText();
 				String MinRepretory = jtf5.getText();
-				if(SSGBook.ChangeBook(Id, Name, Price, NowRepretory, MinRepretory)){
+				String BookState = (String) jtf6.getSelectedItem();
+				if(SSGBook.ChangeBook(Id, Name, Price, NowRepretory, MinRepretory,BookState)){
 					alterBookFrame.dispose();
 					JOptionPane.showMessageDialog(new JFrame(), "修改成功");
-
+					try {
+						data = SSGBook.SeekBooks_Vendor(user);// 获取表内容
+						SSGBook.SortBook_State_DOWN(data);
+						RefreshTable(data);
+					} catch (SQLException throwables) {
+						throwables.printStackTrace();
+					}
 				}
-				try {
-					data = SSGBook.SeekBooks_Vendor(user);// 获取表内容
-					SSGBook.SortBook_State_DOWN(data);
-					RefreshTable(data);
-				} catch (SQLException throwables) {
-					throwables.printStackTrace();
-				}
-
-
 			}
 		});
 
