@@ -6,8 +6,36 @@ import dbutils.DBHelper;
 import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Vector;
 
 public class UserDaoImpl  {
+
+    //获取所有用户信息
+    public static Vector<Vector<String>> AllUserby() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+        //TODO Auto-generated method stub
+        String sql = "select * from myuser;";
+        ResultSet rs =  DBHelper.query(sql);
+       //无参构造时使sid=-1；用于检测有无此用户
+        Vector<Vector<String>> users =new Vector<Vector<String>>();
+        try{
+            while (rs.next()){
+                Vector<String> u = new Vector<String>();
+                u.add(rs.getString("uid"));
+                u.add(rs.getString("password"));
+                u.add(rs.getString("userBalance"));
+                u.add(rs.getString("phone"));
+                u.add(rs.getString("sid"));
+                u.add(rs.getString("userType"));
+                users.add(u);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return users;
+    }
     /*
     @param id
     @return 返回对应id账号的User对象，如果不存在返回null
@@ -31,7 +59,34 @@ public class UserDaoImpl  {
             e.printStackTrace();
         }
         return u;
+    }
+    //true 代表此有sid了
+    public static boolean isUserSid(String sid) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 
+        String sql = "select * from myuser WHERE sid='" + sid +"';";
+        ResultSet rs =  DBHelper.query(sql);
+        try{
+            if (rs.next()){
+                return true;//true代表有此Phone
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    //true 代表此有phone了
+    public static boolean isUserPhone(String phone) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+
+        String sql = "select * from myuser WHERE phone='" + phone +"';";
+        ResultSet rs =  DBHelper.query(sql);
+        try{
+            if (rs.next()){
+                return true;//true代表有此Phone
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /*
@@ -48,35 +103,33 @@ public class UserDaoImpl  {
         }else{
             sql = "INSERT into myuser (phone,sid,password,userType,userBalance) VALUE(null,'"+sid+"','"+password+"','用户',0);";
             DBHelper.update(sql);
-
         }
 
     }
-    /*
-    更新制定user的所有数据
-    @param user 已设定好数据的user对象
-     */
-    public void updateUser(User user) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-//        //TODO Auto-generated method stub
-//        Connection conn = DBHelper.getConnection();
-//        String sql = "UPDATE User SET name ='" + user.getName() +
-//                "',password = '" + user.getPassword() + "',balance =" +
-//                user.getBalance() + "WHERE id ='" + user.getId() + "';";
-//        PreparedStatement stat = null;
-//        ResultSet rs = null;
-//        try{
-//            stat = conn.prepareStatement(sql);
-//            stat.executeUpdate();
-//        }catch (SQLException e){
-//            e.printStackTrace();
-//        }finally {
-//            DBHelper.closeAll(conn,stat,rs);
-//        }
+
+    /* 删除用户*/
+    public static void DeleteUser(String sid){
+        String sql ="delete from myuser where uid ="+sid+";";
+        DBHelper.update(sql);
     }
+    /*修改电话号码 */
+    public static void ChangePhone(String sid ,String phone){
+        String sql ="update myuser set phone="+phone+" where uid ="+sid+";";
+        DBHelper.update(sql);
+    }
+    /* 修改密码*/
+    public static void ChangePassword(String sid ,String password){
+        String sql ="update myuser set password="+password+" where uid ="+sid+";";
+        DBHelper.update(sql);
+    }
+
+
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
 //        UserDaoImpl.addUser("1010101010","123456");
         User us = UserDaoImpl.findUserbyID("10101010");
         System.out.println(us.getSid().equals("-1"));
+        ChangePhone("2","1234");
+
     }
 }
