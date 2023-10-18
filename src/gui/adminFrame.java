@@ -38,15 +38,23 @@ public class adminFrame {
         JMenuItem jmi1 = new JMenuItem("用户信息查询");
         JMenuItem jmi2 = new JMenuItem("用户信息修改");
 
+        JMenu jm2 = new JMenu("用户界面");
+        JMenuItem jmi3 = new JMenuItem("切换");
+
         jm1.add(jmi1);
         jm1.add(jmi2);
         jmb.add(jm1);
 
+        jm2.add(jmi3);
+        jmb.add(jm2);
+
         //修改菜单栏字体
         Font font2 = new Font("宋体",Font.ITALIC,25);
         jm1.setFont(font2);
+        jm2.setFont(font2);
         jmi1.setFont(font2);
         jmi2.setFont(font2);
+        jmi3.setFont(font2);
 
         jf.setBounds((ScreenUtils.getScreenWidth()-WIDTH)/2, (ScreenUtils.getScreenHeight()-HEIGTH)/2,/*bg.getIconWidth(),bg.getIconHeight()*/1300,777);
         jf.setLocationRelativeTo(null);
@@ -75,6 +83,15 @@ public class adminFrame {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
+
+            }
+        });
+        jmi3.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jf.dispose();
+                new yonghuFrame(user);
 
             }
         });

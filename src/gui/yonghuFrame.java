@@ -48,9 +48,9 @@ public class yonghuFrame {
 		pan.add(l1,new BorderLayout().CENTER);
 		//设置菜单栏
 		JMenuBar jmb = new JMenuBar();
-		JMenu jm1 = new JMenu("生产系统");
-		JMenuItem jmi1 = new JMenuItem("生产商品");
-		JMenuItem jmi2 = new JMenuItem("查看商品生产信息");
+//		JMenu jm1 = new JMenu("生产系统");
+//		JMenuItem jmi1 = new JMenuItem("生产商品");
+//		JMenuItem jmi2 = new JMenuItem("查看商品生产信息");
 		
 		
 		
@@ -64,16 +64,22 @@ public class yonghuFrame {
 		JMenuItem jmi5 = new JMenuItem("处理购买订单");
 		JMenuItem jmi6 = new JMenuItem("销售书籍");
 
-		JMenu jm6 = new JMenu("订单系统");
-		JMenuItem jmi7 = new JMenuItem("查看商品订单信息");
-		JMenuItem jmi8 = new JMenuItem("订单处理");
+//		JMenu jm6 = new JMenu("订单系统");
+//		JMenuItem jmi7 = new JMenuItem("查看商品订单信息");
+//		JMenuItem jmi8 = new JMenuItem("订单处理");
+
+
+		JMenu jm6 = new JMenu("管理员界面");
+		JMenuItem jmi7 = new JMenuItem("切换");
+//		JMenuItem jmi8 = new JMenuItem("订单处理");
+
 		
 		JMenu jm3 = new JMenu("修改密码");		
 		JMenu jm4 = new JMenu("切换账号");
 		
-		jm1.add(jmi1);
-		jm1.add(jmi2);
-		jmb.add(jm1);
+//		jm1.add(jmi1);
+//		jm1.add(jmi2);
+//		jmb.add(jm1);
 		
 		jm2.add(jmi3);
 		jm2.add(jmi4);
@@ -86,27 +92,31 @@ public class yonghuFrame {
 		jmb.add(jm5);
 		
 		jm6.add(jmi7);
-		jm6.add(jmi8);
-		jmb.add(jm6);
+//		jm6.add(jmi8);
+
 		jmb.add(jm3);
 		jmb.add(jm4);
-		
+
+		if(user.getType().equals("管理员")){
+			jmb.add(jm6);
+		}
+
 		//修改菜单栏字体
 		Font font2 = new Font("宋体",Font.ITALIC,25);
-		jm1.setFont(font2);
+//		jm1.setFont(font2);
 		jm2.setFont(font2);
 		jm3.setFont(font2);
 		jm4.setFont(font2);
 		jm5.setFont(font2);
 		jm6.setFont(font2);
-		jmi1.setFont(font2);
-		jmi2.setFont(font2);
+//		jmi1.setFont(font2);
+//		jmi2.setFont(font2);
 		jmi3.setFont(font2);
 		jmi4.setFont(font2);
 		jmi5.setFont(font2);
 		jmi6.setFont(font2);
 		jmi7.setFont(font2);
-		jmi8.setFont(font2);
+//		jmi8.setFont(font2);
 	//	jmi9.setFont(font2);
 		
 
@@ -139,27 +149,28 @@ public class yonghuFrame {
 				}
 			}
 		});
-		jmi1.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//new produceGoods();
-
-			}
-		});
-		jmi2.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-		//		new produceQuery();
-
-			}
-		});
+//		jmi1.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				//new produceGoods();
+//
+//			}
+//		});
+//		jmi2.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//		//		new produceQuery();
+//
+//			}
+//		});
 		jmi7.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		//		new orderQuery();
+				jf.dispose();
+				new adminFrame(user);
 			}
 		});
 		jmi4.addActionListener(new ActionListener() {
@@ -221,14 +232,14 @@ public class yonghuFrame {
 
 			}
 		});
-		jmi8.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-		//		new OrderProcess();
-
-			}
-		});
+//		jmi8.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//		//		new OrderProcess();
+//
+//			}
+//		});
 
 	}
 	
@@ -243,7 +254,7 @@ public class yonghuFrame {
 //        }catch(Exception e) {
 //         System.out.println(e);
 //        }
-		User user = UserDaoImpl.findUserbyID("2240129515");
+		User user = UserDaoImpl.findUserbyID("2240129623");
 		yonghuFrame y1 = new yonghuFrame(user);
 
 	}
