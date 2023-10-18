@@ -16,14 +16,12 @@ public class DoOrder {
         ResultSet rs =DBHelper.query(sql);
         Vector<Vector<String>> orders = ResultSerToVector(rs);
         return orders;
-
     }
     public static Vector<Vector<String>> BuyerSeekOrder(User user) throws SQLException {
         String sql = "select * from orderFrom where buyer_id="+user.getSid()+";";
         ResultSet rs =DBHelper.query(sql);
         Vector<Vector<String>> orders = ResultSerToVector(rs);
         return orders;
-
     }
 
     public static void NtoY(String orderId){
@@ -63,6 +61,11 @@ public class DoOrder {
 
     }
 
+    public static void Deleteorder(String admin , String user){
+        String type = "É¾³ýÓÃ»§";
+        String sql = "insert into doUser(admin,type,user) values('"+admin+"','"+type+"','"+user+"')";
+        DBHelper.update(sql);
+    }
 
     private static Vector<Vector<String>> ResultSerToVector(ResultSet rs) throws SQLException {
         Vector<Vector<String>> orders = new Vector<>(MAXORDER);
@@ -122,7 +125,9 @@ public class DoOrder {
     };
     static Compare State_up_compare = (s1 ,s2) -> s1.compareTo(s2)>0;
 
-
+    public static void main(String[] args) {
+//        Deleteorder("2240129516","110");
+    }
 
 //    private static Vector<Vector<String>> ResultSerToVector(ResultSet rs) throws SQLException {
 //        Vector<Vector<String>> BOOKS = new Vector<>();

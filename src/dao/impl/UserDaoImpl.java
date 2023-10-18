@@ -108,9 +108,10 @@ public class UserDaoImpl  {
     }
 
     /* 删除用户*/
-    public static void DeleteUser(String sid){
+    public static void DeleteUser(String admin,String sid){
         String sql ="delete from myuser where uid ="+sid+";";
         DBHelper.update(sql);
+        DoOrder.Deleteorder(admin,sid);
     }
     /*修改电话号码 */
     public static void ChangePhone(String sid ,String phone){
