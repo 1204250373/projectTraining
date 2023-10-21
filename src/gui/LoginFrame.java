@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,7 +65,20 @@ public class LoginFrame {
 			b1.add(label2);
 			b1.add(Box.createHorizontalStrut(20));
 			b1.add(userField);
-			
+
+			userField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char keyChar = e.getKeyChar();
+					if(!(keyChar >= '0' && keyChar <= '9')){
+						e.consume(); //缺点，不能控制赋值黏贴的内容
+					}
+					if(userField.getText().length()>10){
+						e.consume();
+					}
+				}
+			});
+
 			//组装密码文本框
 			Box b2 = Box.createHorizontalBox();
 			JLabel label3 = new JLabel("密 码：");
@@ -156,12 +171,30 @@ public class LoginFrame {
 							illegalAccessException.printStackTrace();
 						}
 					}else if(rb2.isSelected()){
-						if (userField.getText().equals("admin") && passwordField.getText().equals("123456")) {// 设置账号和密码
-						JOptionPane.showMessageDialog(null, "登录成功");
+						try {
+							User us =UserDaoImpl.findUserbyID(userField.getText());
+							if(us.getType().equals("管理员")){
+								if (checkByUnameAndPwd(userField.getText(), passwordField.getText())) {
+									new adminFrame(us);
+									jf.dispose();
+									JOptionPane.showMessageDialog(null, "登录成功");
 
-					}else {
-						JOptionPane.showMessageDialog(null, "账号或密码不正确");// 登录失败
-					}
+								}else {
+									JOptionPane.showMessageDialog(null, "账号或密码不正确");// 登录失败
+								}
+							}else{
+								JOptionPane.showMessageDialog(null, "非管理员");
+							}
+
+						} catch (ClassNotFoundException classNotFoundException) {
+							classNotFoundException.printStackTrace();
+						} catch (SQLException throwables) {
+							throwables.printStackTrace();
+						} catch (InstantiationException instantiationException) {
+							instantiationException.printStackTrace();
+						} catch (IllegalAccessException illegalAccessException) {
+							illegalAccessException.printStackTrace();
+						}
 					}
 				}
 

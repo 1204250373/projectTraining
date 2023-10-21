@@ -7,8 +7,7 @@ import dbutils.DBHelper;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.Box;
@@ -103,7 +102,6 @@ public class registerFrame {
 			jf.setResizable(false);
 			jf.setBounds((ScreenUtils.getScreenWidth()-WIDTH)/2, (ScreenUtils.getScreenHeight()-HEIGTH)/2,WIDTH,HEIGTH);
 			jf.setLocationRelativeTo(null);
-			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			jf.setVisible(true);
 
 
@@ -114,6 +112,27 @@ public class registerFrame {
 				public void actionPerformed(ActionEvent e) {
 					clearText();
 
+				}
+			});
+
+			userField.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char keyChar = e.getKeyChar();
+					if(!(keyChar >= '0' && keyChar <= '9')){
+						e.consume(); //缺点，不能控制赋值黏贴的内容
+					}
+					if(userField.getText().length()>10){
+						e.consume();
+					}
+				}
+			});
+
+			jf.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					super.windowClosing(e);
+					jf.dispose();
 				}
 			});
 
@@ -162,6 +181,7 @@ public class registerFrame {
 				}
 			});
 		}
+
 
 	private  void clearText(){
 		userField.setText("");

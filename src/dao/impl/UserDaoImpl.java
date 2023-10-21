@@ -24,11 +24,11 @@ public class UserDaoImpl  {
             while (rs.next()){
                 Vector<String> u = new Vector<String>();
                 u.add(rs.getString("uid"));
-                u.add(rs.getString("password"));
-                u.add(rs.getString("userBalance"));
-                u.add(rs.getString("phone"));
                 u.add(rs.getString("sid"));
+//                u.add(rs.getString("password"));
+                u.add(rs.getString("phone"));
                 u.add(rs.getString("userType"));
+                u.add(rs.getString("userBalance"));
                 users.add(u);
             }
         }catch (SQLException e){
@@ -109,18 +109,18 @@ public class UserDaoImpl  {
 
     /* 删除用户*/
     public static void DeleteUser(String admin,String sid){
-        String sql ="delete from myuser where uid ="+sid+";";
+        String sql ="delete from myuser where sid ="+sid+";";
         DBHelper.update(sql);
         DoOrder.Deleteorder(admin,sid);
     }
     /*修改电话号码 */
     public static void ChangePhone(String sid ,String phone){
-        String sql ="update myuser set phone="+phone+" where uid ="+sid+";";
+        String sql ="update myuser set phone="+phone+" where sid ="+sid+";";
         DBHelper.update(sql);
     }
     /* 修改密码*/
     public static void ChangePassword(String sid ,String password){
-        String sql ="update myuser set password="+password+" where uid ="+sid+";";
+        String sql ="update myuser set password="+password+" where sid ="+sid+";";
         DBHelper.update(sql);
     }
 
@@ -133,4 +133,10 @@ public class UserDaoImpl  {
         ChangePhone("2","1234");
 
     }
+
+    public final static int UID = 0;
+    public final static int SID = 1;
+    public final static int PHONE = 2;
+    public final static int TYEPE = 3;
+    public final static int BALANCE = 4;
 }
