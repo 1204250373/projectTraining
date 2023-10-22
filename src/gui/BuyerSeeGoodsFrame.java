@@ -28,6 +28,14 @@ public class BuyerSeeGoodsFrame implements ActionListener{
 	private  int row;
 	public  static Object mdseName;
 
+	public static void main(String[] args) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+
+		User user = UserDaoImpl.findUserbyID("2240129516");
+		BuyerSeeGoodsFrame s1 = new BuyerSeeGoodsFrame(user);
+
+	}
+
+
 	//组装视图
 	public BuyerSeeGoodsFrame(User user) throws SQLException {
 		//创建面板
@@ -37,7 +45,6 @@ public class BuyerSeeGoodsFrame implements ActionListener{
 				"书名", "书单价", "购买数量","总价","订单状态","购买时间","买家地址","发货时间","收货情况"}));//表头
 
 		final Vector<Vector<String>>[] data = new Vector[]{DoOrder.BuyerSeekOrder(user)};//获取表内容
-//		SSGBook.SortBook_State_DOWN(data);
 		DoOrder.SortOrderrece_UP(data[0]);
 		model = new DefaultTableModel(data[0], columnNames);
 		table = new JTable(model);//表头和内容放入表
@@ -68,36 +75,23 @@ public class BuyerSeeGoodsFrame implements ActionListener{
 		//组装账号密码框
 		Box b2 = Box.createHorizontalBox();
 
-
-
-
 		//组装按钮
 		JButton Refresh = new JButton("刷新");
 		b2.add(Refresh);
 
 
 		//设置字体大小
-
-
 		table.setFont(new Font("宋体", Font.PLAIN, 18));
-
-
 
 		//组装全部
 		Box allBox = Box.createVerticalBox();
-//		allBox.add(Box.createVerticalStrut(20));
 		allBox.add(b2);
-//		allBox.add(Box.createVerticalStrut(20));
-//		allBox.add(b1);
-//		allBox.add(Box.createVerticalStrut(20));
-//		allBox.add(b3);
 		allBox.add(Box.createVerticalStrut(20));
 		panel.add(allBox, new BorderLayout().CENTER);
 
 		jf.setContentPane(panel);
 		//设置窗口属性
 		jf.setSize(1000, 700);//大小
-		//jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setLocationRelativeTo(null);//居中
 		jf.setVisible(true);
 
@@ -135,7 +129,6 @@ public class BuyerSeeGoodsFrame implements ActionListener{
 				if(delMenItem.getText().equals("确认收货")){
 					if(data[0].get(row).get(DoOrder.YORN).equals("已发货")){
 						DoOrder.ChangeReceive(data[0].get(row).get(DoOrder.OID));
-//					DoOrder.SetDeliverGoods(data[0].get(row).get(DoOrder.OID));
 						//获取表内容
 						try {
 							data[0] = DoOrder.BuyerSeekOrder(user);
@@ -167,12 +160,6 @@ public class BuyerSeeGoodsFrame implements ActionListener{
 		});
 	}
 
-	public static void main(String[] args) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-
-		User user = UserDaoImpl.findUserbyID("2240129516");
-		BuyerSeeGoodsFrame s1 = new BuyerSeeGoodsFrame(user);
-
-	}
 
 
 	//无用
@@ -208,9 +195,6 @@ public class BuyerSeeGoodsFrame implements ActionListener{
 			m_popupMenu.show(table, evt.getX(), evt.getY());
 		}
 	}
-
-
-
 
 
 }

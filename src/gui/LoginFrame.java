@@ -25,14 +25,15 @@ public class LoginFrame {
 	
 		final int WIDTH = 600;
 		final int HEIGTH = 400;
-		
+
+//	public static void main(String[] args) throws Exception {
+//
+//		LoginFrame d1 = new LoginFrame();
+//
+//	}
+//
 		//组装视图
 		public LoginFrame() throws Exception{
-			//ImageIcon bg = new ImageIcon("src/com/hua/8.jpg");
-			//JLabel label = new JLabel(bg);
-			//label.setSize(bg.getIconWidth(),bg.getIconHeight());
-			//jf.getLayeredPane().add(label,new Integer(Integer.MIN_VALUE));
-			
 			JPanel pan = (JPanel)jf.getContentPane();
 			pan.setOpaque(false);//透明
 			pan.setLayout(new FlowLayout());
@@ -117,9 +118,7 @@ public class LoginFrame {
 			
 			pan.add(allBox);
 			
-			//jf.setIconImage(ImageIO.read(new File("src/com/hua/1.png")));
 			jf.setResizable(false);
-			//jf.setLocationRelativeTo(null);
 			jf.setBounds((ScreenUtils.getScreenWidth()-WIDTH)/2, (ScreenUtils.getScreenHeight()-HEIGTH)/2,WIDTH,HEIGTH);
 			jf.setLocationRelativeTo(null);
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -149,7 +148,6 @@ public class LoginFrame {
 						return;
 					}
 
-					//String queryCommonID = "SELECT commonID FROM `common` WHERE commonID IS NOT NULL ";
 
 					//用户
 					if(rb1.isSelected()){
@@ -198,10 +196,6 @@ public class LoginFrame {
 					}
 				}
 
-				private boolean isSelected(JRadioButton rb2) {
-					// TODO Auto-generated method stub
-					return false;
-				}
 				
 			});
 
@@ -232,10 +226,6 @@ public class LoginFrame {
 		}
 		
 
-	public static void main(String[] args) throws Exception {
 
-			LoginFrame d1 = new LoginFrame();
-
-	}
 
 }

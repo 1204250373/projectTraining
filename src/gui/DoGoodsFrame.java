@@ -29,6 +29,15 @@ public class DoGoodsFrame implements ActionListener{
 	private JPopupMenu  m_popupMenu;
 	private  int row;
 	public  static Object mdseName;
+
+//	public static void main(String[] args) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+//
+//		User user = UserDaoImpl.findUserbyID("2240129107");
+//		DoGoodsFrame s1 = new DoGoodsFrame(user);
+//
+//	}
+//
+
 	//组装视图
 	public DoGoodsFrame(User user) throws SQLException {
 		//创建面板
@@ -38,9 +47,7 @@ public class DoGoodsFrame implements ActionListener{
 				"书名", "书单价", "购买数量","总价","订单状态","购买时间","买家地址"}));//表头
 
 		final Vector<Vector<String>>[] data = new Vector[]{DoOrder.SellerSeekOrder(user)};//获取表内容
-//		SSGBook.SortBook_State_DOWN(data);
 		DoOrder.SortOrderState_UP(data[0]);
-//		DoOrder.SortOrderDELIVER_UP(data);
 		model = new DefaultTableModel(data[0], columnNames);
 		table = new JTable(model);//表头和内容放入表
 
@@ -72,13 +79,8 @@ public class DoGoodsFrame implements ActionListener{
 
 		//组装账号密码框
 		Box b2 = Box.createHorizontalBox();
-
 		b2.add(Box.createHorizontalStrut(100));
-
-
-
 		b2.add(Box.createHorizontalStrut(100));
-
 
 		//组装按钮
 		Box b1 = Box.createHorizontalBox();
@@ -99,7 +101,6 @@ public class DoGoodsFrame implements ActionListener{
 		jf.setContentPane(panel);
 		//设置窗口属性
 		jf.setSize(1000, 700);//大小
-		//jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setLocationRelativeTo(null);//居中
 		jf.setVisible(true);
 
@@ -153,12 +154,7 @@ public class DoGoodsFrame implements ActionListener{
 		});
 	}
 
-	public static void main(String[] args) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 
-		User user = UserDaoImpl.findUserbyID("2240129107");
-		DoGoodsFrame s1 = new DoGoodsFrame(user);
-
-	}
 
 
 	//无用

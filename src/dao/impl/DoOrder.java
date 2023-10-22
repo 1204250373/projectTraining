@@ -125,25 +125,11 @@ public class DoOrder {
     };
     static Compare State_up_compare = (s1 ,s2) -> s1.compareTo(s2)>0;
 
-    public static void main(String[] args) {
-//        Deleteorder("2240129516","110");
-    }
-
-//    private static Vector<Vector<String>> ResultSerToVector(ResultSet rs) throws SQLException {
-//        Vector<Vector<String>> BOOKS = new Vector<>();
-//        while(rs.next()) {
-//            Vector<String> book = new Vector<>();
-//            book.add(rs.getString("BookID"));
-//            book.add(rs.getString("BookName"));
-//            book.add(rs.getString("BookState"));
-//            book.add(rs.getString("NowRepertory"));
-//            book.add(rs.getString("BookPrice"));
-//            book.add(rs.getString("Vendor"));
-//            book.add(rs.getString("MinRepertory"));
-//            BOOKS.add(book);
-//        }
-//        return BOOKS;
+//    public static void main(String[] args) {
+////        Deleteorder("2240129516","110");
 //    }
+
+
 
 
 }

@@ -22,10 +22,14 @@ public class newOn implements ActionListener {
 	JScrollPane scrollPane;
 	JTable table;
 	JTextField jtf1;
-	//JTextField jtf2;
 	Vector<String> columnNames;
 	Vector<Vector<String>> data;
-
+//
+//	public static void main(String[] args) throws SQLException {
+//
+//		newOn n1 = new newOn("wyjyh");
+//
+//	}
 	// 组装视图  user传用户的限制唯一的字段
 	public newOn(String user) throws SQLException {
 		// 创建面板
@@ -38,11 +42,6 @@ public class newOn implements ActionListener {
 		data = SSGBook.SeekBooks_Vendor(user);// 获取表内容
 		SSGBook.SortBook_State_DOWN(data);
 		RefreshTable(data);
-//		table = new JTable(model) {
-//			public boolean isCellEditable(int row, int column) {
-//				return false;
-//			}// 表格不允许被编辑
-//		};
 		JTableHeader tableHeader = table.getTableHeader();
 		tableHeader.setReorderingAllowed(false);// 表示所有的列都不可以拖动
 		table.setRowHeight(25);// 设置行高
@@ -54,16 +53,10 @@ public class newOn implements ActionListener {
 		// 组装账号密码框
 		Box b2 = Box.createHorizontalBox();
 		JLabel l1 = new JLabel("商品编号：");
-		//JLabel l2 = new JLabel("商品名称：");
-		//jtf2 = new JTextField(5);
 		b2.add(Box.createHorizontalStrut(300));
 		b2.add(l1);
 		b2.add(Box.createHorizontalStrut(20));
 		b2.add(jtf1);
-		//b2.add(Box.createHorizontalStrut(40));
-		//b2.add(l2);
-		//b2.add(Box.createHorizontalStrut(20));
-		//b2.add(jtf2);
 		b2.add(Box.createHorizontalStrut(300));
 
 		// 组装按钮
@@ -200,13 +193,6 @@ public class newOn implements ActionListener {
 	private void ClearTextFile(){
 		jtf1.setText("");
 	}
-
-	public static void main(String[] args) throws SQLException {
-
-		newOn n1 = new newOn("wyjyh");
-
-	}
-
 
 
 	@Override
@@ -373,30 +359,22 @@ public class newOn implements ActionListener {
 		Box b8 = Box.createHorizontalBox();
 		Box b9 = Box.createHorizontalBox();
 		// 设置标签
-		//JLabel l1 = new JLabel("商品编号:");
 		JLabel l2 = new JLabel("商品名称:");
 		JLabel l3 = new JLabel("商品单价:");
 		JLabel l4 = new JLabel("上架存量:");
 		JLabel l5 = new JLabel("最低存量:");
-		//JLabel l7 = new JLabel("书籍状态:");
 
 		// 设置文本框
-		//JTextField jtf1 = new JTextField(20);
 		JTextField jtf2 = new JTextField(20);
 		JTextField jtf3 = new JTextField(20);
 		JTextField jtf4 = new JTextField(20);
 		JTextField jtf5 = new JTextField(20);
-		//JTextField jtf6 = new JTextField(20);
 
 		// 设置按钮
 		JButton jb1 = new JButton("添加");
 		{
-			//b1.add(l1);
-			//b1.add(Box.createHorizontalStrut(20));
-			//b1.add(jtf1);
-			//b7.add(l7);
+
 			b7.add(Box.createHorizontalStrut(20));
-			//b7.add(jtf6);
 			b2.add(l2);
 			b2.add(Box.createHorizontalStrut(20));
 			b2.add(jtf2);

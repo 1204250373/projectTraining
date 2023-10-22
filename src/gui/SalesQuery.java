@@ -30,6 +30,12 @@ public class SalesQuery implements ActionListener{
 	JTextField jtf3;
 	Vector<String> columnNames;
 
+//	public static void main(String[] args) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+//		User user = UserDaoImpl.findUserbyID("2240129516");
+//
+//		SalesQuery s1 = new SalesQuery(user);
+//
+//	}
 
 	//组装视图
 	public SalesQuery(User user) throws SQLException {
@@ -105,7 +111,6 @@ public class SalesQuery implements ActionListener{
 		jf.setContentPane(panel);
 		//设置窗口属性
 		jf.setSize(1000, 700);//大小
-		//jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jf.setLocationRelativeTo(null);//居中
 		jf.setVisible(true);
 		
@@ -223,13 +228,6 @@ public class SalesQuery implements ActionListener{
 			}
 		});
 	}
-	public static void main(String[] args) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-		User user = UserDaoImpl.findUserbyID("2240129516");
-
-		SalesQuery s1 = new SalesQuery(user);
-
-	}
-
 
 	//无用
 	@Override

@@ -30,7 +30,12 @@ public class registerFrame {
 	JTextField userField;
 	JPasswordField passwordField;
 	JPasswordField passwordField2;
-		//组装视图
+
+//	public static void main(String[] args) {
+//		registerFrame RF = new registerFrame();
+//	}
+
+	//组装视图
 		public registerFrame(){
 			JPanel pan = (JPanel)jf.getContentPane();
 			pan.setOpaque(false);//透明
@@ -187,9 +192,6 @@ public class registerFrame {
 		userField.setText("");
 		passwordField.setText("");
 		passwordField2.setText("");
-	}
-	public static void main(String[] args) {
-		registerFrame RF = new registerFrame();
 	}
 
 }

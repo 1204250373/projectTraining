@@ -16,6 +16,14 @@ public class adminFrame {
     final int WIDTH = 1300;
     final int HEIGTH = 700;
 
+
+
+//    public static void main(String[] args) throws Exception {
+//        User user = UserDaoImpl.findUserbyID("2240129516");
+//        adminFrame y1 = new adminFrame(user);
+//
+//    }
+
     public adminFrame(User user) {
         //给窗口设置属性
         jf.setResizable(false);
@@ -36,7 +44,6 @@ public class adminFrame {
         JMenuBar jmb = new JMenuBar();
         JMenu jm1 = new JMenu("用户管理系统");
         JMenuItem jmi1 = new JMenuItem("用户信息查询");
-//        JMenuItem jmi2 = new JMenuItem("用户信息修改");
 
         JMenu jm2 = new JMenu("用户界面");
         JMenuItem jmi3 = new JMenuItem("切换");
@@ -53,7 +60,6 @@ public class adminFrame {
         jm1.setFont(font2);
         jm2.setFont(font2);
         jmi1.setFont(font2);
-//        jmi2.setFont(font2);
         jmi3.setFont(font2);
 
         jf.setBounds((ScreenUtils.getScreenWidth()-WIDTH)/2, (ScreenUtils.getScreenHeight()-HEIGTH)/2,/*bg.getIconWidth(),bg.getIconHeight()*/1300,777);
@@ -80,18 +86,7 @@ public class adminFrame {
 
             }
         });
-//        jmi2.addActionListener(new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                try {
-//                    new BuyerSeeGoodsFrame(user);
-//                } catch (SQLException throwables) {
-//                    throwables.printStackTrace();
-//                }
-//
-//            }
-//        });
+
         jmi3.addActionListener(new ActionListener() {
 
             @Override
@@ -103,11 +98,5 @@ public class adminFrame {
         });
     }
 
-
-    public static void main(String[] args) throws Exception {
-        User user = UserDaoImpl.findUserbyID("2240129516");
-        adminFrame y1 = new adminFrame(user);
-
-    }
 }
 

@@ -25,6 +25,12 @@ public class userQuery {
     private JPopupMenu  m_popupMenu;
     private  int row;
     public  static Object mdseName;
+
+//    public static void main(String[] args) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+//
+//        User user = UserDaoImpl.findUserbyID("2240129107");
+//        userQuery s1 = new userQuery(user);
+//    }
     //组装视图
     public userQuery(User user) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         //创建面板
@@ -197,13 +203,6 @@ public class userQuery {
     }
 
 
-
-    public static void main(String[] args) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-
-        User user = UserDaoImpl.findUserbyID("2240129107");
-        userQuery s1 = new userQuery(user);
-    }
-
     //接受data，刷新display
     private void RefreshTable(Vector<Vector<String>> data){
 
@@ -373,19 +372,13 @@ public class userQuery {
 
         //组装全部
         Box allBox = Box.createVerticalBox();
-//		allBox.add(Box.createVerticalStrut(20));
         allBox.add(b2);
-//		allBox.add(Box.createVerticalStrut(20));
-//		allBox.add(b1);
-//		allBox.add(Box.createVerticalStrut(20));
-//		allBox.add(b3);
         allBox.add(Box.createVerticalStrut(20));
         panel.add(allBox, new BorderLayout().CENTER);
 
         jf.setContentPane(panel);
         //设置窗口属性
         jf.setSize(1000, 700);//大小
-        //jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setLocationRelativeTo(null);//居中
         jf.setVisible(true);
 

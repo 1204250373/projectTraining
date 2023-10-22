@@ -126,13 +126,13 @@ public class UserDaoImpl  {
 
 
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
-//        UserDaoImpl.addUser("1010101010","123456");
-        User us = UserDaoImpl.findUserbyID("10101010");
-        System.out.println(us.getSid().equals("-1"));
-        ChangePhone("2","1234");
-
-    }
+//    public static void main(String[] args) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+////        UserDaoImpl.addUser("1010101010","123456");
+//        User us = UserDaoImpl.findUserbyID("10101010");
+//        System.out.println(us.getSid().equals("-1"));
+//        ChangePhone("2","1234");
+//
+//    }
 
     public final static int UID = 0;
     public final static int SID = 1;

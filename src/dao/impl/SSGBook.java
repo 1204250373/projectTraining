@@ -157,23 +157,13 @@ public class SSGBook {
         SSGBook.quickSort(books,0,books.size()-1,BOOKSTATE,State_down_compare);
     }
 
-
-    public static void main(String[] args) throws SQLException {
-        //Vector<Vector<String>> getbook = SGBook.SeekBooks_Vendor("5");
-        Vector<Vector<String>> getbook2 = SSGBook.GetBookAll();
-        //Vector<Vector<String>> getbook3 = SSGBook.GetBookAll();
-//        SGBook.SetBook("12","12","12","12","12");
-//        Vector<Vector<String>> getbook3 = SGBook.SeekBooks_Vendor("12");
-//        System.out.println(getbook);
-        System.out.println(getbook2);
-//        System.out.println(getbook3);
-//        System.out.println( getbook.get(0).get(BOOKNAME) );
-//        SGBook.quickSort(getbook2,0,getbook2.size());
-        //SSGBook.SoldBook(getbook2.get(2).get(BOOKID),2);
-        //SSGBook.DeleteBook(getbook2.get(1).get(BOOKID));
-
-
-    }
+//
+//    public static void main(String[] args) throws SQLException {
+//
+//        Vector<Vector<String>> getbook2 = SSGBook.GetBookAll();
+//        System.out.println(getbook2);
+//
+//    }
 
     private static Vector<Vector<String>> ResultSerToVector(ResultSet rs) throws SQLException {
         Vector<Vector<String>> BOOKS = new Vector<>(MAXBOOSNUM);
